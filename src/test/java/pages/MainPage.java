@@ -8,24 +8,27 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.ArrayList;
 
-import static propertiesConstants.PropertiesReader.getProperies;
-import static waits.Waiting.waitResponse;
+import static waits.Waiting.waitElementDisplays;
 
 public class MainPage {
     private WebDriver driver;
-    private String usernamePath = "//*[@id=\"username\"]";
+    private String errorMessagePath = "//*[@class=\"alert alert-danger ng-binding ng-scope\"]";
     private String positiveResponseLocator = "//h1[@class=\"ng-scope\"]";
-    private String erroreMessage = "//*[@class=\"alert alert-danger ng-binding ng-scope\"]";
-    private String voidErrore = "//*[@class=\"help-block ng-active\"]/descendant::div";
-    private String voidErroreTwo = "//*[@id=\"formly_1_input_username_0_description\"]";
     @FindBy(xpath = "//*[@id=\"username\"]")
     private WebElement username0;
     @FindBy(xpath = "//*[@id=\"password\"]")
     private WebElement password;
-    @FindBy(xpath = "//*[@id=\"formly_1_input_username_0\"]")
+    @FindBy(id = "formly_1_input_username_0")
     private WebElement username1;
     @FindBy(xpath = "//*[@class=\"btn btn-danger\"]")
     private WebElement loginButton;
+    @FindBy(xpath = "//*[@class=\"alert alert-danger ng-binding ng-scope\"]")
+    private WebElement errorMessage;
+    @FindBy(xpath = "//*[@class=\"help-block ng-active\"]/descendant::div")
+    private WebElement voidError;
+    @FindBy(xpath = "//*[contains(@class,\"-valid-minlength ng-invalid ng-invalid-required\")]")
+    private WebElement voidErrorTwo;
+
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -40,14 +43,11 @@ public class MainPage {
      *
      * @throws Exception
      */
-    public void authorizationCorrectParameters() throws Exception {
-        waitResponse("//*[@id=\"username\"]", driver).isDisplayed();
-        username0.click();
-        username0.sendKeys(getProperies("login"));
-        password.click();
-        password.sendKeys(getProperies("password"));
-        username1.click();
-        username1.sendKeys(getProperies("description"));
+    public void authorizationCorrectParameters(String log, String pas, String des) throws Exception {
+        waitElementDisplays(username0, driver);
+        username0.sendKeys(log);
+        password.sendKeys(pas);
+        username1.sendKeys(des);
         loginButton.click();
     }
 
@@ -58,7 +58,7 @@ public class MainPage {
      *
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
-    public String checkingAuthorization() throws Exception {
+    public String getAuthorizationMessage() throws Exception {
         return driver.findElement(By.xpath(positiveResponseLocator)).getText();
     }
 
@@ -71,40 +71,14 @@ public class MainPage {
      *
      * @return текст ошибки, что логин или пароль неверен
      */
-    public String authorizationINcorrectLogin() throws Exception {
-        waitResponse(usernamePath, driver).isDisplayed();
-        username0.click();
-        username0.sendKeys(getProperies("falseLogin"));
-        password.click();
-        password.sendKeys(getProperies("password"));
-        username1.click();
-        username1.sendKeys(getProperies("description"));
+    public String authorizationINcorrectLoginOrPassword(String lg, String ps, String descr) throws Exception {
+        waitElementDisplays(username0, driver);
+        username0.sendKeys(lg);
+        password.sendKeys(ps);
+        username1.sendKeys(descr);
         loginButton.click();
-        waitResponse(erroreMessage, driver).isDisplayed();
-        return driver.findElement(By.xpath(erroreMessage)).getText();
-
-    }
-
-    /**
-     * Ввод в поле username значения “angular False”
-     * Ввод в поле password значения “password”
-     * Ввод в поле username(1) значение “Фреймворк Ангуляр”
-     * Нажать на кнопку Login.
-     * Получить ошибку
-     *
-     * @return текст ошибки, что логин или пароль неверен
-     */
-    public String authorizationINcorrectPassword() throws Exception {
-        waitResponse(usernamePath, driver).isDisplayed();
-        username0.click();
-        username0.sendKeys(getProperies("login"));
-        password.click();
-        password.sendKeys(getProperies("falsePassword"));
-        username1.click();
-        username1.sendKeys(getProperies("description"));
-        loginButton.click();
-        waitResponse(erroreMessage, driver).isDisplayed();
-        return driver.findElement(By.xpath(erroreMessage)).getText();
+        waitElementDisplays(errorMessage, driver);
+        return driver.findElement(By.xpath(errorMessagePath)).getText();
     }
 
     /**
@@ -115,32 +89,18 @@ public class MainPage {
      *
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
-    public String authorizationWhithVoidParam() {
-        try {
-            ArrayList<WebElement> elements = new ArrayList<WebElement>(3);
-            elements.add(username0);
-            elements.add(password);
-            elements.add(username1);
-            elements.get(0).sendKeys(" ");
-            elements.get(1).sendKeys(getProperies("voidText"));
-            elements.get(2).sendKeys(getProperies("voidText"));
-            waitResponse(voidErrore, driver).isDisplayed();
-            driver.navigate().refresh();
-            elements.get(0).sendKeys(getProperies("voidText"));
-            elements.get(1).sendKeys(" ");
-            elements.get(2).sendKeys(getProperies("voidText"));
-            waitResponse(voidErrore, driver).isDisplayed();
-            driver.navigate().refresh();
-            elements.get(0).sendKeys(getProperies("voidText"));
-            elements.get(1).sendKeys(getProperies("voidText"));
-            elements.get(2).sendKeys(" ");
-            username0.click();
-            waitResponse(voidErroreTwo, driver).isDisplayed();
-            return "all work!";
-        } catch (Exception e) {
-            return "Не появились мэсенджи с тем, что поле пустое";
+    public String authorizationWhithVoidParam(String lg, String ps, String descr, String path) {
+        ArrayList<WebElement> elements = new ArrayList<WebElement>(3);
+        elements.add(username0);
+        elements.add(password);
+        elements.add(username1);
+        elements.get(0).sendKeys(lg);
+        elements.get(1).sendKeys(ps);
+        elements.get(2).sendKeys(descr);
+        password.click();
+        if (driver.findElement(By.xpath(path)).isDisplayed() || loginButton.isEnabled() == false) {
+            return driver.findElement(By.xpath(path)).getText();
         }
-
+        return "asfasf";
     }
-
 }

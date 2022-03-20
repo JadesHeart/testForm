@@ -18,15 +18,12 @@ public class Waiting {
      * Вызываю класс WebDriverWait и засовываю его в переменную wait
      * Передаю драйвер и время для проверки
      *
-     * @param locator локатор элемента
-     * @param driver  драйвер
+     * @param driver драйвер
      * @return Возвращает найденный элемент, если он появился на странице
      */
-    public static WebElement waitResponse(String locator, WebDriver driver) {
-
+    public static WebElement waitElementDisplays(WebElement element, WebDriver driver) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
 }

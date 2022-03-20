@@ -1,21 +1,19 @@
-package getchromedriver;
-
-import org.openqa.selenium.chrome.ChromeDriver;
+package webdriver;
 
 /**
  * Save data for WebDriver
  */
-public class GetChromeDriver {
+public class ChromeDriver {
     /**
      * Directory chromedriver: \webDriver\chromedriver\chromedriver.exe
      * For ChromeVersion 97.0.4692.71
      *
      * @return new ChromeDriver
      */
-    public static ChromeDriver getchromedriver() {
+    public static org.openqa.selenium.chrome.ChromeDriver getChromeDriver() {
         String path = System.getProperty("user.dir");
         String chromeDriverPath = path + "\\webDriver\\chromedriver\\chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
-        return new ChromeDriver();
+        return new org.openqa.selenium.chrome.ChromeDriver();
     }
 }
