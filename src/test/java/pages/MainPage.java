@@ -35,6 +35,13 @@ public class MainPage {
         PageFactory.initElements(driver, this);
     }
 
+    public void enteringParameters(String log, String pas, String des) {
+        username0.sendKeys(log);
+        password.sendKeys(pas);
+        username1.sendKeys(des);
+        loginButton.click();
+    }
+
     /**
      * Ввод в поле username(0) значения “angular”
      * Ввод в поле password значения “password”
@@ -45,10 +52,7 @@ public class MainPage {
      */
     public void authorizationCorrectParameters(String log, String pas, String des) throws Exception {
         waitElementDisplays(username0, driver);
-        username0.sendKeys(log);
-        password.sendKeys(pas);
-        username1.sendKeys(des);
-        loginButton.click();
+        enteringParameters(log, pas, des);
     }
 
     /**
@@ -73,10 +77,7 @@ public class MainPage {
      */
     public String authorizationINcorrectLoginOrPassword(String lg, String ps, String descr) throws Exception {
         waitElementDisplays(username0, driver);
-        username0.sendKeys(lg);
-        password.sendKeys(ps);
-        username1.sendKeys(descr);
-        loginButton.click();
+        enteringParameters(lg, ps, descr);
         waitElementDisplays(errorMessage, driver);
         return driver.findElement(By.xpath(errorMessagePath)).getText();
     }
@@ -101,6 +102,6 @@ public class MainPage {
         if (driver.findElement(By.xpath(path)).isDisplayed() || loginButton.isEnabled() == false) {
             return driver.findElement(By.xpath(path)).getText();
         }
-        return "asfasf";
+        return null;
     }
 }
