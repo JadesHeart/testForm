@@ -17,9 +17,9 @@ public class MainPage {
     private WebElement password;
     @FindBy(id = "formly_1_input_username_0")
     private WebElement username1;
-    @FindBy(css = "body > div.jumbotron > div > div > div > form > div.form-actions > button")
+    @FindBy(css = "div.form-actions > button")
     private WebElement loginButton;
-    @FindBy(css = "body > div.jumbotron > div > div > div > div.alert.alert-danger.ng-binding.ng-scope")
+    @FindBy(css = "div.alert.alert-danger.ng-binding.ng-scope")
     private WebElement errorMessage;
     @FindBy(xpath = "//*[@class=\"help-block ng-active\"]/descendant::div")
     private WebElement voidError;
@@ -44,6 +44,8 @@ public class MainPage {
         username1.sendKeys(description);
     }
 
+    public void clickLoginButton() {loginButton.click();}
+
     /**
      * Ожидание:
      * Переход на новую страницу.
@@ -52,7 +54,6 @@ public class MainPage {
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
     public String getPositiveResponseText() throws Exception {
-        loginButton.click();
         waitElementDisplays(positiveResponseLocator, driver);
         return positiveResponseLocator.getText();
     }
@@ -67,7 +68,6 @@ public class MainPage {
      * @return текст ошибки, что логин или пароль неверен
      */
     public String getErrorTextFromFalseLogOrPas() {
-        loginButton.click();
         waitElementDisplays(errorMessage, driver);
         return errorMessage.getText();
     }
@@ -80,19 +80,17 @@ public class MainPage {
      *
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
-    public String getErrorTextFromVoidParam(String nullValues) {
+    public String getErrorTextFromVoidDescription() {
         password.click();
-        if (nullValues == "DescriptionIsNothing") {
-            waitElementDisplays(nullDescriptionError, driver);
-            if (nullDescriptionError.isDisplayed() || loginButton.isEnabled() == false) {
-                return nullDescriptionError.getText();
-            }
-        } else {
-            waitElementDisplays(nullPasOrLogError, driver);
-            if (nullPasOrLogError.isDisplayed() || loginButton.isEnabled() == false) {
-                return nullPasOrLogError.getText();
-            }
-        }
-        return null;
+        loginButton.isEnabled();
+        waitElementDisplays(nullDescriptionError, driver);
+        return nullDescriptionError.getText();
+    }
+
+    public String getErrorTextFromVoidPasswordOrLogin() {
+        password.click();
+        loginButton.isEnabled();
+        waitElementDisplays(nullPasOrLogError, driver);
+        return nullPasOrLogError.getText();
     }
 }

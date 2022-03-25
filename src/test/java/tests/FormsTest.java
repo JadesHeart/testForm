@@ -40,6 +40,7 @@ public class FormsTest {
     @Test
     public void enteringTrueValues() throws Exception {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getPositiveResponseText(), ReadProperties.getProperty("home"));
     }
 
@@ -49,6 +50,7 @@ public class FormsTest {
     @Test
     public void enteringFalseLogin() {
         mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getErrorTextFromFalseLogOrPas(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
@@ -58,31 +60,30 @@ public class FormsTest {
     @Test
     public void enteringFalsePassword() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
+        mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getErrorTextFromFalseLogOrPas(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
-    @DataProvider(name = "EnterVoidValuesDataProvide")
+    @DataProvider(name = "inputVoidParameters")
     public Object[][] dpMethodTwo(Method m) {
         return new Object[][]{{"", "SomeText", "SomeText"},
-                {"SomeText", "", "SomeText"}};
+                {"SomeText", "", "SomeText"},
+                {"SomeText", "SomeText", ""}};
     }
 
     /**
      * Оставляю поочерёдно поля login/password пустми и проверяю, что кнопка Login не работает и появляется ошибка
      */
-    @Test(dataProvider = "EnterVoidValuesDataProvide")
-    public void voidloginOrPassword(String lg, String ps, String descr) {
-        mainPage.enteringParameters(lg, ps, descr);
-        Assert.assertEquals(mainPage.getErrorTextFromVoidParam("LogOrPasIsNothing"), ReadProperties.getProperty("allWork"));
-    }
+    @Test(dataProvider = "inputVoidParameters")
+    public void inputVoidParameters(String login, String password, String description) {
+        if (description == "") {
+            mainPage.enteringParameters("SomeText", "SomeText", "");
+            Assert.assertEquals(mainPage.getErrorTextFromVoidDescription(), ReadProperties.getProperty("allWork1"));
+        } else {
+            mainPage.enteringParameters(login, password, description);
+            Assert.assertEquals(mainPage.getErrorTextFromVoidPasswordOrLogin(), ReadProperties.getProperty("allWork"));
+        }
 
-    /**
-     * Оставляю поочерёдно поле username description пустм и проверяю, что кнопка Login не работает и появляется ошибка
-     */
-    @Test
-    public void voidDesc() {
-        mainPage.enteringParameters("SomeText", "SomeText", "");
-        Assert.assertEquals(mainPage.getErrorTextFromVoidParam("DescriptionIsNothing"), ReadProperties.getProperty("allWork1"));
     }
 
     @BeforeMethod
