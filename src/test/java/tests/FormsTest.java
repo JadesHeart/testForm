@@ -77,13 +77,22 @@ public class FormsTest {
     @Test(dataProvider = "inputVoidParameters")
     public void inputVoidParameters(String login, String password, String description) {
         if (description == "") {
-            mainPage.enteringParameters("SomeText", "SomeText", "");
-            Assert.assertEquals(mainPage.getErrorTextFromVoidDescription(), ReadProperties.getProperty("allWork1"));
-        } else {
             mainPage.enteringParameters(login, password, description);
-            Assert.assertEquals(mainPage.getErrorTextFromVoidPasswordOrLogin(), ReadProperties.getProperty("allWork"));
+            mainPage.clickPassword();
+            if (mainPage.loginButtonIsUnwork()) {
+                Assert.assertEquals(mainPage.getErrorTextFromVoidDescription(), ReadProperties.getProperty("allWork1"));
+            }
+        } else if (login == "") {
+            mainPage.enteringParameters(login, password, description);
+            if (mainPage.loginButtonIsUnwork()) {
+                Assert.assertEquals(mainPage.getErrorTextFromVoidLogin(), ReadProperties.getProperty("allWork"));
+            }
+        } else if (password == "") {
+            if (mainPage.loginButtonIsUnwork()) {
+                mainPage.enteringParameters(login, password, description);
+                Assert.assertEquals(mainPage.getErrorTextFromVoidPassword(), ReadProperties.getProperty("allWork"));
+            }
         }
-
     }
 
     @BeforeMethod

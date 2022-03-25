@@ -9,7 +9,6 @@ import static waits.Waiting.waitElementDisplays;
 
 public class MainPage {
     private WebDriver driver;
-    private String errorMessagePath = "//*[@class=\"alert alert-danger ng-binding ng-scope\"]";
 
     @FindBy(id = "username")
     private WebElement username0;
@@ -21,16 +20,14 @@ public class MainPage {
     private WebElement loginButton;
     @FindBy(css = "div.alert.alert-danger.ng-binding.ng-scope")
     private WebElement errorMessage;
-    @FindBy(xpath = "//*[@class=\"help-block ng-active\"]/descendant::div")
-    private WebElement voidError;
-    @FindBy(xpath = "//*[contains(@class,\"-valid-minlength ng-invalid ng-invalid-required\")]")
-    private WebElement voidErrorTwo;
     @FindBy(xpath = "//h1[@class=\"ng-scope\"]")
     private WebElement positiveResponseLocator;
-    @FindBy(xpath = "//*[contains(@class,\" ng-scope has-error\")]")
+    @FindBy(css = ".formly-field .has-error")
     private WebElement nullDescriptionError;
-    @FindBy(xpath = "//*[@class=\"help-block ng-active\"]/descendant::div")
-    private WebElement nullPasOrLogError;
+    @FindBy(css = "[ng-messages*=\"username\"]")
+    private WebElement nullLog;
+    @FindBy(css = "[ng-message=\"required\"]")
+    private WebElement nullPas;
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -44,7 +41,16 @@ public class MainPage {
         username1.sendKeys(description);
     }
 
-    public void clickLoginButton() {loginButton.click();}
+    public void clickLoginButton() {
+        loginButton.click();
+    }
+
+    public void clickPassword() {
+        password.click();
+    }
+    public Boolean loginButtonIsUnwork() {
+      return loginButton.isEnabled();
+    }
 
     /**
      * Ожидание:
@@ -81,16 +87,17 @@ public class MainPage {
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
     public String getErrorTextFromVoidDescription() {
-        password.click();
-        loginButton.isEnabled();
         waitElementDisplays(nullDescriptionError, driver);
         return nullDescriptionError.getText();
     }
 
-    public String getErrorTextFromVoidPasswordOrLogin() {
-        password.click();
-        loginButton.isEnabled();
-        waitElementDisplays(nullPasOrLogError, driver);
-        return nullPasOrLogError.getText();
+    public String getErrorTextFromVoidLogin() {
+        waitElementDisplays(nullLog, driver);
+        return nullLog.getText();
+    }
+
+    public String getErrorTextFromVoidPassword() {
+        waitElementDisplays(nullPas, driver);
+        return nullPas.getText();
     }
 }
