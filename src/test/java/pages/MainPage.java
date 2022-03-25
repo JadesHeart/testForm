@@ -1,19 +1,16 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import java.util.ArrayList;
 
 import static waits.Waiting.waitElementDisplays;
 
 public class MainPage {
     private WebDriver driver;
     private String errorMessagePath = "//*[@class=\"alert alert-danger ng-binding ng-scope\"]";
-    private String positiveResponseLocator = "//h1[@class=\"ng-scope\"]";
+
     @FindBy(id = "username")
     private WebElement username0;
     @FindBy(id = "password")
@@ -28,7 +25,12 @@ public class MainPage {
     private WebElement voidError;
     @FindBy(xpath = "//*[contains(@class,\"-valid-minlength ng-invalid ng-invalid-required\")]")
     private WebElement voidErrorTwo;
-
+    @FindBy(xpath = "//h1[@class=\"ng-scope\"]")
+    private WebElement positiveResponseLocator;
+    @FindBy(xpath = "//*[contains(@class,\" ng-scope has-error\")]")
+    private WebElement nullDescriptionError;
+    @FindBy(xpath = "//*[@class=\"help-block ng-active\"]/descendant::div")
+    private WebElement nullPasOrLogError;
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -40,7 +42,6 @@ public class MainPage {
         username0.sendKeys(login);
         this.password.sendKeys(password);
         username1.sendKeys(description);
-        loginButton.click();
     }
 
     /**
@@ -50,8 +51,10 @@ public class MainPage {
      *
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
-    public String authorizationCorrectParameters() throws Exception {
-        return driver.findElement(By.xpath(positiveResponseLocator)).getText();
+    public String getPositiveResponseText() throws Exception {
+        loginButton.click();
+        waitElementDisplays(positiveResponseLocator, driver);
+        return positiveResponseLocator.getText();
     }
 
     /**
@@ -63,9 +66,10 @@ public class MainPage {
      *
      * @return текст ошибки, что логин или пароль неверен
      */
-    public String authorizationINcorrectLoginOrPassword() {
+    public String getErrorTextFromFalseLogOrPas() {
+        loginButton.click();
         waitElementDisplays(errorMessage, driver);
-        return driver.findElement(By.xpath(errorMessagePath)).getText();
+        return errorMessage.getText();
     }
 
     /**
@@ -76,17 +80,18 @@ public class MainPage {
      *
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
-    public String authorizationWhithVoidParam(String login, String ps, String descr, String path) {
-        ArrayList<WebElement> elements = new ArrayList<WebElement>(3);
-        elements.add(username0);
-        elements.add(password);
-        elements.add(username1);
-        elements.get(0).sendKeys(login);
-        elements.get(1).sendKeys(ps);
-        elements.get(2).sendKeys(descr);
+    public String getErrorTextFromVoidParam(String nullValues) {
         password.click();
-        if (driver.findElement(By.xpath(path)).isDisplayed() || loginButton.isEnabled() == false) {
-            return driver.findElement(By.xpath(path)).getText();
+        if (nullValues == "DescriptionIsNothing") {
+            waitElementDisplays(nullDescriptionError, driver);
+            if (nullDescriptionError.isDisplayed() || loginButton.isEnabled() == false) {
+                return nullDescriptionError.getText();
+            }
+        } else {
+            waitElementDisplays(nullPasOrLogError, driver);
+            if (nullPasOrLogError.isDisplayed() || loginButton.isEnabled() == false) {
+                return nullPasOrLogError.getText();
+            }
         }
         return null;
     }

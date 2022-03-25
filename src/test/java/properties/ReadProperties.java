@@ -1,11 +1,11 @@
-package ReadProperties;
+package properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * класс проперти
@@ -17,7 +17,7 @@ public class ReadProperties {
 
     static {
         try {
-            properties.load(new FileReader("src/test/java/constant.properties"));
+            properties.load(new FileReader("src/test/resources/constant.properties"));
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }

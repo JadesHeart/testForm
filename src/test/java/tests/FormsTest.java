@@ -1,10 +1,14 @@
 package tests;
 
-import ReadProperties.ReadProperties;
+import properties.ReadProperties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.DataProvider;
 import pages.MainPage;
 
 import java.lang.reflect.Method;
@@ -22,7 +26,7 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\лали\\IdeaProjects\\testAngularjsProtractor\\webDriver\\chromedriver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
         driver = new ChromeDriver();
         mainPage = new MainPage(driver);
         driver.manage().window().maximize();
@@ -36,7 +40,7 @@ public class FormsTest {
     @Test
     public void enteringTrueValues() throws Exception {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
-        Assert.assertEquals(mainPage.authorizationCorrectParameters(), ReadProperties.getProperty("home"));
+        Assert.assertEquals(mainPage.getPositiveResponseText(), ReadProperties.getProperty("home"));
     }
 
     /**
@@ -45,7 +49,7 @@ public class FormsTest {
     @Test
     public void enteringFalseLogin() {
         mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
-        Assert.assertEquals(mainPage.authorizationINcorrectLoginOrPassword(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
+        Assert.assertEquals(mainPage.getErrorTextFromFalseLogOrPas(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
     /**
@@ -54,30 +58,35 @@ public class FormsTest {
     @Test
     public void enteringFalsePassword() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
-        Assert.assertEquals(mainPage.authorizationINcorrectLoginOrPassword(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
+        Assert.assertEquals(mainPage.getErrorTextFromFalseLogOrPas(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
     @DataProvider(name = "EnterVoidValuesDataProvide")
     public Object[][] dpMethodTwo(Method m) {
-        return new Object[][]{{"", "SomeText", "SomeText", "//*[@class=\"help-block ng-active\"]/descendant::div"},
-                {"SomeText", "", "SomeText", "//*[@class=\"help-block ng-active\"]/descendant::div"}};
+        return new Object[][]{{"", "SomeText", "SomeText"},
+                {"SomeText", "", "SomeText"}};
     }
 
     /**
      * Оставляю поочерёдно поля login/password пустми и проверяю, что кнопка Login не работает и появляется ошибка
      */
     @Test(dataProvider = "EnterVoidValuesDataProvide")
-    public void voidloginOrPassword(String lg, String ps, String descr, String path) {
-        Assert.assertEquals(mainPage.authorizationWhithVoidParam(lg, ps, descr, path), ReadProperties.getProperty("allWork"));
-        driver.navigate().refresh();
+    public void voidloginOrPassword(String lg, String ps, String descr) {
+        mainPage.enteringParameters(lg, ps, descr);
+        Assert.assertEquals(mainPage.getErrorTextFromVoidParam("LogOrPasIsNothing"), ReadProperties.getProperty("allWork"));
     }
 
     /**
      * Оставляю поочерёдно поле username description пустм и проверяю, что кнопка Login не работает и появляется ошибка
      */
-    @Test(dataProvider = "EnterVoidValuesDataProvide")
+    @Test
     public void voidDesc() {
-        Assert.assertEquals(mainPage.authorizationWhithVoidParam("SomeText", "SomeText", "", "//*[contains(@class,\" ng-scope has-error\")]"), ReadProperties.getProperty("allWork1"));
+        mainPage.enteringParameters("SomeText", "SomeText", "");
+        Assert.assertEquals(mainPage.getErrorTextFromVoidParam("DescriptionIsNothing"), ReadProperties.getProperty("allWork1"));
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
         driver.navigate().refresh();
     }
 
