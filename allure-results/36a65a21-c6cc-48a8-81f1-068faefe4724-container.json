@@ -1,0 +1,1 @@
+{"uuid":"36a65a21-c6cc-48a8-81f1-068faefe4724","name":"testAngularjsProtractor/","children":["cee0bbe9-c155-48f4-891b-95f3bf11f9f7"],"befores":[],"afters":[{"name":"browserClose","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1648201463477,"stop":1648201464069}],"start":1648201457159,"stop":1648201464069}

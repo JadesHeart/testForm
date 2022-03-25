@@ -1,31 +1,30 @@
 package tests;
 
+import ReadProperties.ReadProperties;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.DataProvider;
-import webdriver.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.MainPage;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-import ReadProperties.ReadProperties;
-
 /**
  * Класс с
  */
 public class FormsTest {
-    WebDriver driver = ChromeDriver.getChromeDriver();
-    MainPage mainPage = new MainPage(driver);
+    private static WebDriver driver;
+    private static MainPage mainPage;
 
     /**
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() throws Exception {
+    public void startBrowser() {
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\лали\\IdeaProjects\\testAngularjsProtractor\\webDriver\\chromedriver\\chromedriver.exe");
+        driver = new ChromeDriver();
+        mainPage = new MainPage(driver);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("baseURL"));
@@ -36,43 +35,39 @@ public class FormsTest {
      */
     @Test
     public void enteringTrueValues() throws Exception {
-        mainPage.authorizationCorrectParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
-        Assert.assertEquals(mainPage.getAuthorizationMessage(), ReadProperties.getProperty("home"));
+        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        Assert.assertEquals(mainPage.authorizationCorrectParameters(), ReadProperties.getProperty("home"));
     }
 
     /**
      * Ввожу НЕ верные параметры(логин) и получаю ошибку
      */
     @Test
-    public void enteringFalseLogin() throws Exception {
-        Assert.assertEquals(mainPage.authorizationINcorrectLoginOrPassword(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description")), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
+    public void enteringFalseLogin() {
+        mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        Assert.assertEquals(mainPage.authorizationINcorrectLoginOrPassword(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
     /**
      * Ввожу НЕ верные параметры(пароль) и получаю ошибку
      */
     @Test
-    public void enteringFalsePassword() throws Exception {
-        Assert.assertEquals(mainPage.authorizationINcorrectLoginOrPassword(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description")), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
+    public void enteringFalsePassword() {
+        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
+        Assert.assertEquals(mainPage.authorizationINcorrectLoginOrPassword(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
     @DataProvider(name = "EnterVoidValuesDataProvide")
     public Object[][] dpMethodTwo(Method m) {
-        switch (m.getName()) {
-            case "voidloginOrPassword":
-                return new Object[][]{{"", "SomeText", "SomeText", "//*[@class=\"help-block ng-active\"]/descendant::div"},
-                        {"SomeText", "", "SomeText", "//*[@class=\"help-block ng-active\"]/descendant::div"}};
-            case "voidDesc":
-                return new Object[][]{{"SomeText", "SomeText", "", "//*[contains(@class,\" ng-scope has-error\")]"}};
-        }
-        return null;
+        return new Object[][]{{"", "SomeText", "SomeText", "//*[@class=\"help-block ng-active\"]/descendant::div"},
+                {"SomeText", "", "SomeText", "//*[@class=\"help-block ng-active\"]/descendant::div"}};
     }
 
     /**
      * Оставляю поочерёдно поля login/password пустми и проверяю, что кнопка Login не работает и появляется ошибка
      */
     @Test(dataProvider = "EnterVoidValuesDataProvide")
-    public void voidloginOrPassword(String lg, String ps, String descr, String path) throws Exception {
+    public void voidloginOrPassword(String lg, String ps, String descr, String path) {
         Assert.assertEquals(mainPage.authorizationWhithVoidParam(lg, ps, descr, path), ReadProperties.getProperty("allWork"));
         driver.navigate().refresh();
     }
@@ -81,8 +76,8 @@ public class FormsTest {
      * Оставляю поочерёдно поле username description пустм и проверяю, что кнопка Login не работает и появляется ошибка
      */
     @Test(dataProvider = "EnterVoidValuesDataProvide")
-    public void voidDesc(String lg, String ps, String descr, String path) throws Exception {
-        Assert.assertEquals(mainPage.authorizationWhithVoidParam(lg, ps, descr, path), ReadProperties.getProperty("allWork1"));
+    public void voidDesc() {
+        Assert.assertEquals(mainPage.authorizationWhithVoidParam("SomeText", "SomeText", "", "//*[contains(@class,\" ng-scope has-error\")]"), ReadProperties.getProperty("allWork1"));
         driver.navigate().refresh();
     }
 

@@ -14,15 +14,15 @@ public class MainPage {
     private WebDriver driver;
     private String errorMessagePath = "//*[@class=\"alert alert-danger ng-binding ng-scope\"]";
     private String positiveResponseLocator = "//h1[@class=\"ng-scope\"]";
-    @FindBy(xpath = "//*[@id=\"username\"]")
+    @FindBy(id = "username")
     private WebElement username0;
-    @FindBy(xpath = "//*[@id=\"password\"]")
+    @FindBy(id = "password")
     private WebElement password;
     @FindBy(id = "formly_1_input_username_0")
     private WebElement username1;
-    @FindBy(xpath = "//*[@class=\"btn btn-danger\"]")
+    @FindBy(css = "body > div.jumbotron > div > div > div > form > div.form-actions > button")
     private WebElement loginButton;
-    @FindBy(xpath = "//*[@class=\"alert alert-danger ng-binding ng-scope\"]")
+    @FindBy(css = "body > div.jumbotron > div > div > div > div.alert.alert-danger.ng-binding.ng-scope")
     private WebElement errorMessage;
     @FindBy(xpath = "//*[@class=\"help-block ng-active\"]/descendant::div")
     private WebElement voidError;
@@ -35,24 +35,12 @@ public class MainPage {
         PageFactory.initElements(driver, this);
     }
 
-    public void enteringParameters(String log, String pas, String des) {
-        username0.sendKeys(log);
-        password.sendKeys(pas);
-        username1.sendKeys(des);
-        loginButton.click();
-    }
-
-    /**
-     * Ввод в поле username(0) значения “angular”
-     * Ввод в поле password значения “password”
-     * Ввод в поле username(1) значения “Фреймворк Ангуляр”
-     * Нажать на кнопку Login.
-     *
-     * @throws Exception
-     */
-    public void authorizationCorrectParameters(String log, String pas, String des) throws Exception {
+    public void enteringParameters(String login, String password, String description) {
         waitElementDisplays(username0, driver);
-        enteringParameters(log, pas, des);
+        username0.sendKeys(login);
+        this.password.sendKeys(password);
+        username1.sendKeys(description);
+        loginButton.click();
     }
 
     /**
@@ -62,7 +50,7 @@ public class MainPage {
      *
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
-    public String getAuthorizationMessage() throws Exception {
+    public String authorizationCorrectParameters() throws Exception {
         return driver.findElement(By.xpath(positiveResponseLocator)).getText();
     }
 
@@ -75,9 +63,7 @@ public class MainPage {
      *
      * @return текст ошибки, что логин или пароль неверен
      */
-    public String authorizationINcorrectLoginOrPassword(String lg, String ps, String descr) throws Exception {
-        waitElementDisplays(username0, driver);
-        enteringParameters(lg, ps, descr);
+    public String authorizationINcorrectLoginOrPassword() {
         waitElementDisplays(errorMessage, driver);
         return driver.findElement(By.xpath(errorMessagePath)).getText();
     }
@@ -90,12 +76,12 @@ public class MainPage {
      *
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
-    public String authorizationWhithVoidParam(String lg, String ps, String descr, String path) {
+    public String authorizationWhithVoidParam(String login, String ps, String descr, String path) {
         ArrayList<WebElement> elements = new ArrayList<WebElement>(3);
         elements.add(username0);
         elements.add(password);
         elements.add(username1);
-        elements.get(0).sendKeys(lg);
+        elements.get(0).sendKeys(login);
         elements.get(1).sendKeys(ps);
         elements.get(2).sendKeys(descr);
         password.click();
