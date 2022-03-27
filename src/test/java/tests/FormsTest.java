@@ -1,15 +1,13 @@
 package tests;
 
-import properties.ReadProperties;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.DataProvider;
+import org.testng.annotations.*;
 import pages.MainPage;
+import properties.ReadProperties;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -37,6 +35,7 @@ public class FormsTest {
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
      */
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void enteringTrueValues() throws Exception {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
@@ -47,6 +46,7 @@ public class FormsTest {
     /**
      * Ввожу НЕ верные параметры(логин) и получаю ошибку
      */
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void enteringFalseLogin() {
         mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
@@ -57,6 +57,7 @@ public class FormsTest {
     /**
      * Ввожу НЕ верные параметры(пароль) и получаю ошибку
      */
+    @Severity(SeverityLevel.CRITICAL)
     @Test
     public void enteringFalsePassword() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
