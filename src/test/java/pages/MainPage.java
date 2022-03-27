@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,27 +29,26 @@ public class MainPage {
     private WebElement nullLog;
     @FindBy(css = "[ng-messages*=\"password\"]")
     private WebElement nullPas;
-
     public MainPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-
+    @Step("Ввод данных о пользователе в форму.")
     public void enteringParameters(String login, String password, String description) {
         waitElementDisplays(username0, driver);
         username0.sendKeys(login);
         this.password.sendKeys(password);
         this.description.sendKeys(description);
     }
-
+    @Step("Клик на кнопку 'LogIn'")
     public void clickLoginButton() {
         loginButton.click();
     }
-
+    @Step("Клик на поле с паролем.")
     public void clickPassword() {
         password.click();
     }
-
+    @Step("Проверка на работоспособность кнопки.")
     public Boolean isLoginButtonEnabled() {
         return loginButton.isEnabled();
     }
@@ -60,6 +60,7 @@ public class MainPage {
      *
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
+    @Step("Ожидает элемента успешного входа и возвращает его.")
     public String getPositiveResponseText() throws Exception {
         waitElementDisplays(positiveResponseLocator, driver);
         return positiveResponseLocator.getText();
@@ -74,6 +75,7 @@ public class MainPage {
      *
      * @return текст ошибки, что логин или пароль неверен
      */
+    @Step("Ожидает сообщения об ошибке и возвращает его.")
     public String getErrorMessageText() {
         waitElementDisplays(errorMessage, driver);
         return errorMessage.getText();
@@ -87,16 +89,17 @@ public class MainPage {
      *
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
+    @Step("Ожидает сообщение об ошибке пустого поля 'username description', и возвращает его.")
     public String getErrorTextFromEmptyDescription() {
         waitElementDisplays(nullDescriptionError, driver);
         return nullDescriptionError.getText();
     }
-
+    @Step("Ожидает сообщение об ошибке пустого поля 'Username', и возвращает его.")
     public String getErrorTextFromEmptyLogin() {
         waitElementDisplays(nullLog, driver);
         return nullLog.getText();
     }
-
+    @Step("Ожидает сообщение об ошибке пустого поля 'Password', и возвращает его.")
     public String getErrorTextFromEmptyPassword() {
         waitElementDisplays(nullPas, driver);
         return nullPas.getText();

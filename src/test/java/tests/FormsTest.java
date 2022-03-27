@@ -1,7 +1,6 @@
 package tests;
 
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -22,6 +21,7 @@ public class FormsTest {
     /**
      * Запуск браузера и открытие сайта
      */
+
     @BeforeTest
     public void startBrowser() {
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
@@ -35,7 +35,8 @@ public class FormsTest {
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
      */
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.BLOCKER)
+    @Epic(value = "Ввод верных значений.")
     @Test
     public void enteringTrueValues() throws Exception {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
@@ -47,6 +48,9 @@ public class FormsTest {
      * Ввожу НЕ верные параметры(логин) и получаю ошибку
      */
     @Severity(SeverityLevel.CRITICAL)
+    @Epic(value = "Ввод НЕ верных значений.")
+    @Feature(value = "Ввод несуществующих значений.")
+    @Story(value = "Ввод неверного логина")
     @Test
     public void enteringFalseLogin() {
         mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
@@ -58,6 +62,9 @@ public class FormsTest {
      * Ввожу НЕ верные параметры(пароль) и получаю ошибку
      */
     @Severity(SeverityLevel.CRITICAL)
+    @Epic(value = "Ввод НЕ верных значений.")
+    @Feature(value = "Ввод несуществующих значений.")
+    @Story(value = "Ввод неверного пароля")
     @Test
     public void enteringFalsePassword() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
@@ -75,6 +82,9 @@ public class FormsTest {
     /**
      * Оставляю поочерёдно поля login/password пустми и проверяю, что кнопка Login не работает и появляется ошибка
      */
+    @Severity(SeverityLevel.NORMAL)
+    @Epic(value = "Ввод НЕ верных значений.")
+    @Feature(value = "Ввод пустых значений в поля.")
     @Test(dataProvider = "inputVoidParameters")
     public void inputVoidParameters(String login, String password, String description) {
         mainPage.enteringParameters(login, password, description);
