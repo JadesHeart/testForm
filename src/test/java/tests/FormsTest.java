@@ -51,7 +51,7 @@ public class FormsTest {
     public void enteringFalseLogin() {
         mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
         mainPage.clickLoginButton();
-        Assert.assertEquals(mainPage.getErrorTextFromFalseLogOrPas(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
+        Assert.assertEquals(mainPage.getErrorMessageText(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
     /**
@@ -61,7 +61,7 @@ public class FormsTest {
     public void enteringFalsePassword() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
         mainPage.clickLoginButton();
-        Assert.assertEquals(mainPage.getErrorTextFromFalseLogOrPas(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
+        Assert.assertEquals(mainPage.getErrorMessageText(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
     @DataProvider(name = "inputVoidParameters")
@@ -76,22 +76,17 @@ public class FormsTest {
      */
     @Test(dataProvider = "inputVoidParameters")
     public void inputVoidParameters(String login, String password, String description) {
+        mainPage.enteringParameters(login, password, description);
+        Assert.assertFalse(mainPage.isLoginButtonEnabled());
         if (description == "") {
-            mainPage.enteringParameters(login, password, description);
             mainPage.clickPassword();
-            if (mainPage.loginButtonIsUnwork()) {
-                Assert.assertEquals(mainPage.getErrorTextFromVoidDescription(), ReadProperties.getProperty("allWork1"));
-            }
-        } else if (login == "") {
-            mainPage.enteringParameters(login, password, description);
-            if (mainPage.loginButtonIsUnwork()) {
-                Assert.assertEquals(mainPage.getErrorTextFromVoidLogin(), ReadProperties.getProperty("allWork"));
-            }
-        } else if (password == "") {
-            if (mainPage.loginButtonIsUnwork()) {
-                mainPage.enteringParameters(login, password, description);
-                Assert.assertEquals(mainPage.getErrorTextFromVoidPassword(), ReadProperties.getProperty("allWork"));
-            }
+            Assert.assertEquals(mainPage.getErrorTextFromEmptyDescription(), ReadProperties.getProperty("allWork1"));
+        }
+        if (login == "") {
+            Assert.assertEquals(mainPage.getErrorTextFromEmptyLogin(), ReadProperties.getProperty("allWork"));
+        }
+        if (password == "") {
+            Assert.assertEquals(mainPage.getErrorTextFromEmptyPassword(), ReadProperties.getProperty("allWork"));
         }
     }
 

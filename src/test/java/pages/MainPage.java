@@ -15,10 +15,10 @@ public class MainPage {
     @FindBy(id = "password")
     private WebElement password;
     @FindBy(id = "formly_1_input_username_0")
-    private WebElement username1;
-    @FindBy(css = "div.form-actions > button")
+    private WebElement description;
+    @FindBy(css = ".form-actions > button")
     private WebElement loginButton;
-    @FindBy(css = "div.alert.alert-danger.ng-binding.ng-scope")
+    @FindBy(css = "alert-danger")
     private WebElement errorMessage;
     @FindBy(xpath = "//h1[@class=\"ng-scope\"]")
     private WebElement positiveResponseLocator;
@@ -26,7 +26,7 @@ public class MainPage {
     private WebElement nullDescriptionError;
     @FindBy(css = "[ng-messages*=\"username\"]")
     private WebElement nullLog;
-    @FindBy(css = "[ng-message=\"required\"]")
+    @FindBy(css = "[ng-messages*=\"password\"]")
     private WebElement nullPas;
 
     public MainPage(WebDriver driver) {
@@ -38,7 +38,7 @@ public class MainPage {
         waitElementDisplays(username0, driver);
         username0.sendKeys(login);
         this.password.sendKeys(password);
-        username1.sendKeys(description);
+        this.description.sendKeys(description);
     }
 
     public void clickLoginButton() {
@@ -48,8 +48,9 @@ public class MainPage {
     public void clickPassword() {
         password.click();
     }
-    public Boolean loginButtonIsUnwork() {
-      return loginButton.isEnabled();
+
+    public Boolean isLoginButtonEnabled() {
+        return loginButton.isEnabled();
     }
 
     /**
@@ -73,7 +74,7 @@ public class MainPage {
      *
      * @return текст ошибки, что логин или пароль неверен
      */
-    public String getErrorTextFromFalseLogOrPas() {
+    public String getErrorMessageText() {
         waitElementDisplays(errorMessage, driver);
         return errorMessage.getText();
     }
@@ -86,17 +87,17 @@ public class MainPage {
      *
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
-    public String getErrorTextFromVoidDescription() {
+    public String getErrorTextFromEmptyDescription() {
         waitElementDisplays(nullDescriptionError, driver);
         return nullDescriptionError.getText();
     }
 
-    public String getErrorTextFromVoidLogin() {
+    public String getErrorTextFromEmptyLogin() {
         waitElementDisplays(nullLog, driver);
         return nullLog.getText();
     }
 
-    public String getErrorTextFromVoidPassword() {
+    public String getErrorTextFromEmptyPassword() {
         waitElementDisplays(nullPas, driver);
         return nullPas.getText();
     }
