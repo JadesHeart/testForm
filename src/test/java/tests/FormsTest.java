@@ -1,6 +1,12 @@
 package tests;
 
-import io.qameta.allure.*;
+
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Step;
+import io.qameta.allure.Story;
+import io.qameta.allure.Feature;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -21,7 +27,7 @@ public class FormsTest {
     /**
      * Запуск браузера и открытие сайта
      */
-
+    @Step(value = "Запускает хромДрайвер и открывает ссылку на сайт")
     @BeforeTest
     public void startBrowser() {
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
@@ -35,9 +41,12 @@ public class FormsTest {
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
      */
+    @Step(value = "Вводит параметры теста и проверяет на успешный вход")
     @Severity(SeverityLevel.BLOCKER)
-    @Epic(value = "Ввод верных значений.")
-    @Test
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Тест формы авторизации")
+    @Story(value = "Авторизация с верными параметрами логина/пароля")
+    @Test()
     public void enteringTrueValues() throws Exception {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
         mainPage.clickLoginButton();
@@ -47,10 +56,11 @@ public class FormsTest {
     /**
      * Ввожу НЕ верные параметры(логин) и получаю ошибку
      */
+    @Step("Вводит параметры теста(неверный логин) и проверяет появление ошибки")
     @Severity(SeverityLevel.CRITICAL)
-    @Epic(value = "Ввод НЕ верных значений.")
-    @Feature(value = "Ввод несуществующих значений.")
-    @Story(value = "Ввод неверного логина")
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Тест формы авторизации")
+    @Story(value = "Авторизация с НЕ верным параметром логина")
     @Test
     public void enteringFalseLogin() {
         mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
@@ -61,10 +71,11 @@ public class FormsTest {
     /**
      * Ввожу НЕ верные параметры(пароль) и получаю ошибку
      */
+    @Step("Вводит параметры теста(неверный пароль) и проверяет появление ошибки")
     @Severity(SeverityLevel.CRITICAL)
-    @Epic(value = "Ввод НЕ верных значений.")
-    @Feature(value = "Ввод несуществующих значений.")
-    @Story(value = "Ввод неверного пароля")
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Тест формы авторизации")
+    @Story(value = "Авторизация с НЕ верным параметром пароля")
     @Test
     public void enteringFalsePassword() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
@@ -82,9 +93,11 @@ public class FormsTest {
     /**
      * Оставляю поочерёдно поля login/password пустми и проверяю, что кнопка Login не работает и появляется ошибка
      */
+    @Step("Вводит пустые логин/пароль/описание и проверяет появление ошибки")
     @Severity(SeverityLevel.NORMAL)
-    @Epic(value = "Ввод НЕ верных значений.")
-    @Feature(value = "Ввод пустых значений в поля.")
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Тест формы авторизации")
+    @Story(value = "Авторизация с пустыми параметрами логина/пароля/описания")
     @Test(dataProvider = "inputVoidParameters")
     public void inputVoidParameters(String login, String password, String description) {
         mainPage.enteringParameters(login, password, description);
@@ -100,7 +113,7 @@ public class FormsTest {
             Assert.assertEquals(mainPage.getErrorTextFromEmptyPassword(), ReadProperties.getProperty("allWork"));
         }
     }
-
+    @Step(value = "Обновляет страницу")
     @BeforeMethod
     public void beforeMethod() {
         driver.navigate().refresh();
@@ -109,6 +122,7 @@ public class FormsTest {
     /**
      * Закрывает браузер
      */
+    @Step(value = "Закрывает хромДрайвер")
     @AfterTest
     public void browserClose() {
         driver.quit();

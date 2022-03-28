@@ -33,7 +33,7 @@ public class MainPage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    @Step("Ввод данных о пользователе в форму.")
+    @Step("Ввод данных о пользователе в форму")
     public void enteringParameters(String login, String password, String description) {
         waitElementDisplays(username0, driver);
         username0.sendKeys(login);
@@ -60,7 +60,7 @@ public class MainPage {
      *
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
-    @Step("Ожидает элемента успешного входа и возвращает его.")
+    @Step("Ожидает элемента успешного входа и возвращает его текст")
     public String getPositiveResponseText() throws Exception {
         waitElementDisplays(positiveResponseLocator, driver);
         return positiveResponseLocator.getText();
@@ -75,7 +75,7 @@ public class MainPage {
      *
      * @return текст ошибки, что логин или пароль неверен
      */
-    @Step("Ожидает сообщения об ошибке и возвращает его.")
+    @Step("Ожидает сообщения об ошибке и возвращает его текст")
     public String getErrorMessageText() {
         waitElementDisplays(errorMessage, driver);
         return errorMessage.getText();
@@ -89,17 +89,17 @@ public class MainPage {
      *
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
-    @Step("Ожидает сообщение об ошибке пустого поля 'username description', и возвращает его.")
+    @Step("Ожидает сообщение об ошибке пустого поля 'username description', и возвращает его текст")
     public String getErrorTextFromEmptyDescription() {
         waitElementDisplays(nullDescriptionError, driver);
         return nullDescriptionError.getText();
     }
-    @Step("Ожидает сообщение об ошибке пустого поля 'Username', и возвращает его.")
+    @Step("Ожидает сообщение об ошибке пустого поля 'Username', и возвращает его текст")
     public String getErrorTextFromEmptyLogin() {
         waitElementDisplays(nullLog, driver);
         return nullLog.getText();
     }
-    @Step("Ожидает сообщение об ошибке пустого поля 'Password', и возвращает его.")
+    @Step("Ожидает сообщение об ошибке пустого поля 'Password', и возвращает его текст")
     public String getErrorTextFromEmptyPassword() {
         waitElementDisplays(nullPas, driver);
         return nullPas.getText();
