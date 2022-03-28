@@ -60,7 +60,7 @@ public class MainPage {
      *
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
-    @Step("Ожидает элемента успешного входа и возвращает его текст")
+    @Step("Ожидание элемента успешной авторизации")
     public String getPositiveResponseText() throws Exception {
         waitElementDisplays(positiveResponseLocator, driver);
         return positiveResponseLocator.getText();
@@ -75,7 +75,7 @@ public class MainPage {
      *
      * @return текст ошибки, что логин или пароль неверен
      */
-    @Step("Ожидает сообщения об ошибке и возвращает его текст")
+    @Step("Ожидает сообщения об ошибке, вследствии неверного паролья/логина")
     public String getErrorMessageText() {
         waitElementDisplays(errorMessage, driver);
         return errorMessage.getText();
@@ -89,17 +89,17 @@ public class MainPage {
      *
      * @return Если выводились блоки с ошибками, то всё ок. Если нет, то тест возвращает ошибку
      */
-    @Step("Ожидает сообщение об ошибке пустого поля 'username description', и возвращает его текст")
+    @Step("Ожидает сообщение об ошибке пустого поля 'username description'")
     public String getErrorTextFromEmptyDescription() {
         waitElementDisplays(nullDescriptionError, driver);
         return nullDescriptionError.getText();
     }
-    @Step("Ожидает сообщение об ошибке пустого поля 'Username', и возвращает его текст")
+    @Step("Ожидает сообщение об ошибке пустого поля 'Username'")
     public String getErrorTextFromEmptyLogin() {
         waitElementDisplays(nullLog, driver);
         return nullLog.getText();
     }
-    @Step("Ожидает сообщение об ошибке пустого поля 'Password', и возвращает его текст")
+    @Step("Ожидает сообщение об ошибке пустого поля 'Password'")
     public String getErrorTextFromEmptyPassword() {
         waitElementDisplays(nullPas, driver);
         return nullPas.getText();
