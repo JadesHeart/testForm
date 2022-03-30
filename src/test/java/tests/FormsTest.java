@@ -1,12 +1,7 @@
 package tests;
 
 
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Step;
-import io.qameta.allure.Story;
-import io.qameta.allure.Feature;
+import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -27,7 +22,6 @@ public class FormsTest {
     /**
      * Запуск браузера и открытие сайта
      */
-    @Step(value = "Запускает хромДрайвер и открывает ссылку на сайт")
     @BeforeTest
     public void startBrowser() {
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
@@ -41,7 +35,7 @@ public class FormsTest {
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
      */
-    @Step(value = "Вводит параметры теста и проверяет на успешный вход")
+    @Description(value = "Тест проверяет успешную авторизацию при верных параметрах логина и пароля")
     @Severity(SeverityLevel.BLOCKER)
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Тест формы авторизации")
@@ -51,12 +45,13 @@ public class FormsTest {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getPositiveResponseText(), ReadProperties.getProperty("home"));
+        driver.get(ReadProperties.getProperty("baseURL"));
     }
 
     /**
      * Ввожу НЕ верные параметры(логин) и получаю ошибку
      */
-    @Step("Вводит параметры теста(неверный логин) и проверяет появление ошибки")
+    @Description(value = "Тест проверяет наличие ошбки при попытке авторизации с неверным логином")
     @Severity(SeverityLevel.CRITICAL)
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Тест формы авторизации")
@@ -71,7 +66,7 @@ public class FormsTest {
     /**
      * Ввожу НЕ верные параметры(пароль) и получаю ошибку
      */
-    @Step("Вводит параметры теста(неверный пароль) и проверяет появление ошибки")
+    @Description(value = "Тест проверяет наличие ошбки при попытке авторизации с неверным паролем")
     @Severity(SeverityLevel.CRITICAL)
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Тест формы авторизации")
@@ -93,8 +88,9 @@ public class FormsTest {
     /**
      * Оставляю поочерёдно поля login/password пустми и проверяю, что кнопка Login не работает и появляется ошибка
      */
-    @Step("Вводит пустые логин/пароль/описание и проверяет появление ошибки")
+
     @Severity(SeverityLevel.NORMAL)
+    @Description(value = "Тест проверяет наличие ошбки при попытке авторизации с пустым(и) параметром(и)")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Тест формы авторизации")
     @Story(value = "Авторизация с пустыми параметрами логина/пароля/описания")
@@ -111,9 +107,8 @@ public class FormsTest {
         }
         if (password == "") {
             Assert.assertEquals(mainPage.getErrorTextFromEmptyPassword(), ReadProperties.getProperty("allWork"));
-        }
+        } 
     }
-    @Step(value = "Обновляет страницу")
     @BeforeMethod
     public void beforeMethod() {
         driver.navigate().refresh();
@@ -122,7 +117,6 @@ public class FormsTest {
     /**
      * Закрывает браузер
      */
-    @Step(value = "Закрывает хромДрайвер")
     @AfterTest
     public void browserClose() {
         driver.quit();

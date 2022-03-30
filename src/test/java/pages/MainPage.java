@@ -19,7 +19,7 @@ public class MainPage {
     private WebElement description;
     @FindBy(css = ".form-actions > button")
     private WebElement loginButton;
-    @FindBy(css = "alert-danger")
+    @FindBy(css = "[ng-if=\"Auth.error\"]")
     private WebElement errorMessage;
     @FindBy(xpath = "//h1[@class=\"ng-scope\"]")
     private WebElement positiveResponseLocator;

@@ -11,6 +11,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
         <aspectj.version>1.8.10</aspectj.version>
+
     </properties>
     <dependencies>
         <dependency>
@@ -62,6 +63,7 @@
                     <reportVersion>2.10.0</reportVersion>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>
