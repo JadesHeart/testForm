@@ -1,7 +1,7 @@
 package tests;
 
 import io.qameta.allure.*;
-import listener.testFailure;
+import listener.FailureListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -16,7 +16,7 @@ import java.time.Duration;
 /**
  * Класс с
  */
-@Listeners(testFailure.class)
+@Listeners(FailureListener.class)
 public class FormsTest {
     private static WebDriver driver;
     private static MainPage mainPage;
