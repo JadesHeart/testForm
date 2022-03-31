@@ -1,13 +1,7 @@
 package tests;
 
-
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
-import io.qameta.allure.Description;
-
+import io.qameta.allure.*;
+import listener.testFailure;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -18,12 +12,18 @@ import properties.ReadProperties;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
+
 /**
  * Класс с
  */
+@Listeners(testFailure.class)
 public class FormsTest {
     private static WebDriver driver;
     private static MainPage mainPage;
+
+    public static WebDriver getDriver() {
+        return driver;
+    }
 
     /**
      * Запуск браузера и открытие сайта
@@ -38,6 +38,24 @@ public class FormsTest {
         driver.get(ReadProperties.getProperty("baseURL"));
     }
 
+    @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Падающие тесты")
+    @Story(value = "Попытка получить текст из несуществующего элемента")
+    @Test
+    public void waitingMissingElement() {
+        Assert.assertEquals(mainPage.getTextFromNonExistentElement(), ReadProperties.getProperty("EmptyText"));
+    }
+
+    @Description(value = "Тест берёт текст из элемента и ассёртит с случайным текстом и получает ошибку")
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Падающие тесты")
+    @Story(value = "Текст из элемента сравнивается с другим текстом")
+    @Test
+    public void testHeadlineUserNameText() {
+        Assert.assertEquals(mainPage.getTextFromHeadlineUserNamet(), ReadProperties.getProperty("EmptyText"));
+    }
+
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
      */
@@ -46,7 +64,7 @@ public class FormsTest {
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Тест формы авторизации")
     @Story(value = "Авторизация с верными параметрами логина/пароля")
-    @Test()
+    @Test
     public void enteringTrueValues() throws Exception {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
         mainPage.clickLoginButton();
@@ -69,9 +87,6 @@ public class FormsTest {
         Assert.assertEquals(mainPage.getErrorMessageText(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
-    /**
-     * Ввожу НЕ верные параметры(пароль) и получаю ошибку
-     */
     @Description(value = "Тест проверяет наличие ошбки при попытке авторизации с неверным паролем")
     @Severity(SeverityLevel.CRITICAL)
     @Epic(value = "Тестирования пользовательского интерфейса")
@@ -84,7 +99,7 @@ public class FormsTest {
         Assert.assertEquals(mainPage.getErrorMessageText(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
 
-    @DataProvider(name = "inputVoidParameters")
+    @DataProvider(name = "inputEmptyParameters")
     public Object[][] dpMethodTwo(Method m) {
         return new Object[][]{{"", "SomeText", "SomeText"},
                 {"SomeText", "", "SomeText"},
@@ -101,7 +116,7 @@ public class FormsTest {
     @Feature(value = "Тест формы авторизации")
     @Story(value = "Авторизация с пустыми параметрами логина/пароля/описания")
     @Test(dataProvider = "inputVoidParameters")
-    public void inputVoidParameters(String login, String password, String description) {
+    public void inputEmptyParameters(String login, String password, String description) {
         mainPage.enteringParameters(login, password, description);
         Assert.assertFalse(mainPage.isLoginButtonEnabled());
         if (description == "") {
@@ -113,8 +128,9 @@ public class FormsTest {
         }
         if (password == "") {
             Assert.assertEquals(mainPage.getErrorTextFromEmptyPassword(), ReadProperties.getProperty("allWork"));
-        } 
+        }
     }
+
     @BeforeMethod
     public void beforeMethod() {
         driver.navigate().refresh();

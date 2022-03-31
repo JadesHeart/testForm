@@ -29,10 +29,16 @@ public class MainPage {
     private WebElement nullLog;
     @FindBy(css = "[ng-messages*=\"password\"]")
     private WebElement nullPas;
+    @FindBy(css = "nonExistentElement")
+    private WebElement nonExistentElement;
+    @FindBy(css = "[for=\"username\"]")
+    private WebElement headlineUserName;
+
     public MainPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
+
     @Step("Ввод данных о пользователе в форму")
     public void enteringParameters(String login, String password, String description) {
         waitElementDisplays(username0, driver);
@@ -40,14 +46,17 @@ public class MainPage {
         this.password.sendKeys(password);
         this.description.sendKeys(description);
     }
+
     @Step("Клик на кнопку 'LogIn'")
     public void clickLoginButton() {
         loginButton.click();
     }
+
     @Step("Клик на поле с паролем.")
     public void clickPassword() {
         password.click();
     }
+
     @Step("Проверка на работоспособность кнопки.")
     public Boolean isLoginButtonEnabled() {
         return loginButton.isEnabled();
@@ -94,14 +103,24 @@ public class MainPage {
         waitElementDisplays(nullDescriptionError, driver);
         return nullDescriptionError.getText();
     }
+
     @Step("Ожидает сообщение об ошибке пустого поля 'Username'")
     public String getErrorTextFromEmptyLogin() {
         waitElementDisplays(nullLog, driver);
         return nullLog.getText();
     }
+
     @Step("Ожидает сообщение об ошибке пустого поля 'Password'")
     public String getErrorTextFromEmptyPassword() {
         waitElementDisplays(nullPas, driver);
         return nullPas.getText();
+    }
+    @Step("Попытка получить текст из несуществующего элемента")
+    public String getTextFromNonExistentElement() {
+        return nonExistentElement.getText();
+    }
+    @Step("Получаю текст из заголовка поля UserName")
+    public String getTextFromHeadlineUserNamet() {
+        return headlineUserName.getText();
     }
 }
