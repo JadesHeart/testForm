@@ -12,26 +12,16 @@ import static waits.Waiting.waitElementDisplays;
 
 public class DummyRegistration {
     private WebDriver driver;
-    @FindBy(css = "[href=\"#login\"]")
-    private WebElement buttonToGoAuthorization;
-    @FindBy(xpath = "//*[@id=\"alert1\"]/following-sibling::fieldset//descendant::input[@name=\"username\"]")
+    @FindBy(css = "td > input[type=text]")
     private WebElement loginInput;
-    @FindBy(xpath = "//*[@id=\"alert1\"]/following-sibling::fieldset//descendant::input[@name=\"password\"]")
+    @FindBy(css = "[type=password]")
     private WebElement passwordInput;
-    @FindBy(css = ":nth-child(7) > div.span_1_of_4 > input")
+    @FindBy(css = "td:nth-child(1) > input[type=submit]")
     private WebElement submitButton;
 
     public DummyRegistration(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-    }
-
-    /**
-     * Включает форму авторизиции
-     */
-    public void goToAuthorization() {
-        waitElementDisplays(buttonToGoAuthorization, driver);
-        buttonToGoAuthorization.click();
     }
 
     /**

@@ -34,8 +34,7 @@ public class DummyFormTest {
      */
     @Test(priority = 1)
     public void wrightCookies() throws IOException {
-        dummyRegistration.goToAuthorization();
-        dummyRegistration.enteringParameters("Login", "Password");
+        dummyRegistration.enteringParameters(ReadProperties.getProperty("loginSQL"), ReadProperties.getProperty("passwordSQL"));
         dummyRegistration.clickLoginButton();
         dummyRegistration.setCookiesInFile();
         Assert.assertEquals(dummyRegistration.getCookiesFromSite(), dummyRegistration.getCookiesFromFile());
