@@ -115,10 +115,12 @@ public class MainPage {
         waitElementDisplays(nullPas, driver);
         return nullPas.getText();
     }
+
     @Step("Попытка получить текст из несуществующего элемента")
     public String getTextFromNonExistentElement() {
         return nonExistentElement.getText();
     }
+
     @Step("Получаю текст из заголовка поля UserName")
     public String getTextFromHeadlineUserNamet() {
         return headlineUserName.getText();
