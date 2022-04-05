@@ -21,8 +21,8 @@ import java.time.Duration;
 
 public class CookieTest {
     private WebDriver driver;
-    private static SQLExPage dummyRegistration;
-    private static ActionsWithCookies addCookies;
+    private SQLExPage dummyRegistration;
+    private ActionsWithCookies addCookies;
 
     /**
      * Инициализирует драйвер
@@ -54,11 +54,11 @@ public class CookieTest {
     public void authorizationWithCookies() throws IOException {
         String sessionId = ActionsWithCookies.returnSessionID();
         if (sessionId != null) {
-            ActionsWithCookies.addingCookies(sessionId);
+            addCookies.addingCookies(sessionId);
         } else {
             dummyRegistration.enteringParameters(ReadProperties.getProperty("loginSQL"), ReadProperties.getProperty("passwordSQL"));
             dummyRegistration.clickLoginButton();
-            ActionsWithCookies.setCookiesInFile();
+            addCookies.saveCookies();
         }
         Assert.assertEquals(dummyRegistration.getProfileName(), ReadProperties.getProperty("profileName"));
     }
