@@ -52,7 +52,7 @@ public class CookieTest {
     @Story(value = "Авторизация с помощью куков")
     @Test
     public void authorizationWithCookies() throws IOException {
-        String sessionId = ActionsWithCookies.returnSessionID();
+        String sessionId = addCookies.returnSessionID();
         if (sessionId != null) {
             addCookies.addingCookies(sessionId);
         } else {

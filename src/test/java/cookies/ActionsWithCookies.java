@@ -4,7 +4,6 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -27,21 +26,19 @@ public class ActionsWithCookies {
     /**
      * Берёт куки из файла, в который записали их при первой авторизации
      */
-    public static String returnSessionID() throws IOException {
+    public String returnSessionID() throws IOException {
         File file = new File("src/test/resources/Cookies.data");
-        try (FileReader fileReader = new FileReader(file); BufferedReader Buffreader = new BufferedReader(fileReader);) {
+        try (BufferedReader Buffreader = new BufferedReader(new FileReader(file))) {
             return Buffreader.readLine();
         }
     }
 
     public void saveCookies() throws IOException {
         File file = new File("src/test/resources/Cookies.data");
-        try (FileWriter fileWrite = new FileWriter(file);
-             BufferedWriter bWrite = new BufferedWriter(fileWrite)) {
+        try (FileWriter fileWrite = new FileWriter(file)) {
             file.delete();
             file.createNewFile();
-            bWrite.write(driver.manage().getCookieNamed("PHPSESSID").getValue());
-            bWrite.newLine();
+            fileWrite.write(driver.manage().getCookieNamed("PHPSESSID").getValue());
         }
     }
 }
