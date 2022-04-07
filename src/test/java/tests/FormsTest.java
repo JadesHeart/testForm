@@ -1,13 +1,24 @@
 package tests;
 
-import io.qameta.allure.*;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import listener.FailureListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 import pages.MainPage;
 import properties.ReadProperties;
+import scripts.JavaScriptMethods;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -20,6 +31,8 @@ import java.time.Duration;
 public class FormsTest {
     private static WebDriver driver;
     private static MainPage mainPage;
+    private static JavaScriptMethods javaScripts;
+
 
     public static WebDriver getDriver() {
         return driver;
@@ -33,9 +46,20 @@ public class FormsTest {
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
         driver = new ChromeDriver();
         mainPage = new MainPage(driver);
+        javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("baseURL"));
+    }
+    @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Тест страницы авторизации")
+    @Story(value = "Проверка наличия скрола страницы")
+    @Test
+    public void test() throws Exception {
+        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        javaScripts.removeCursor();
+        Assert.assertFalse(javaScripts.checkScroll(), "Если вернулось True, то скролл есть");
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
