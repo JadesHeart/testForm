@@ -51,15 +51,16 @@ public class FormsTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("baseURL"));
     }
+
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Тест страницы авторизации")
     @Story(value = "Проверка наличия скрола страницы")
     @Test
-    public void test() throws Exception {
+    public void test() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
-        javaScripts.removeCursor();
-        Assert.assertFalse(javaScripts.checkScroll(), "Если вернулось True, то скролл есть");
+        javaScripts.removeCursor("#formly_1_input_username_0");
+        Assert.assertFalse(javaScripts.checkScroll("body"), "scrollHeight больше offsetHeight");
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
@@ -77,7 +78,7 @@ public class FormsTest {
     @Story(value = "Текст из элемента сравнивается с другим текстом")
     @Test
     public void testHeadlineUserNameText() {
-        Assert.assertEquals(mainPage.getTextFromHeadlineUserNamet(), ReadProperties.getProperty("EmptyText"));
+        Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
 
     /**
@@ -139,7 +140,7 @@ public class FormsTest {
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Тест формы авторизации")
     @Story(value = "Авторизация с пустыми параметрами логина/пароля/описания")
-    @Test(dataProvider = "inputVoidParameters")
+    @Test(dataProvider = "inputEmptyParameters")
     public void inputEmptyParameters(String login, String password, String description) {
         mainPage.enteringParameters(login, password, description);
         Assert.assertFalse(mainPage.isLoginButtonEnabled());

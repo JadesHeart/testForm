@@ -70,7 +70,7 @@ public class MainPage {
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
     @Step("Ожидание элемента успешной авторизации")
-    public String getPositiveResponseText() throws Exception {
+    public String getPositiveResponseText() {
         waitElementDisplays(positiveResponseLocator, driver);
         return positiveResponseLocator.getText();
     }
@@ -122,7 +122,7 @@ public class MainPage {
     }
 
     @Step("Получаю текст из заголовка поля UserName")
-    public String getTextFromHeadlineUserNamet() {
+    public String getTextFromHeadlineUserName() {
         return headlineUserName.getText();
     }
 }

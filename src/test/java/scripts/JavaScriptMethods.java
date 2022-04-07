@@ -10,12 +10,14 @@ public class JavaScriptMethods {
     public JavaScriptMethods(WebDriver driver) {
         js = (JavascriptExecutor) driver;
     }
+
     @Step("С помощью JS скрипта убирает курсор с поля описания")
-    public void removeCursor() {
-        js.executeScript("document.querySelector('#formly_1_input_username_0').blur()");
+    public void removeCursor(String locator) {
+        js.executeScript("document.querySelector('" + locator + "').blur()");
     }
+
     @Step("Проверяет наличие скрола на странице. Если его нет вовзращает false")
-    public Boolean checkScroll() {
-        return (Boolean) js.executeScript("return document.querySelector('body').scrollHeight>document.querySelector('body').offsetHeight");
+    public Boolean checkScroll(String locator) {
+        return (Boolean) js.executeScript("return document.querySelector('" + locator + "').scrollHeight>document.querySelector('" + locator + "').offsetHeight");
     }
 }
