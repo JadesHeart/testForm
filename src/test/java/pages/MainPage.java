@@ -10,7 +10,8 @@ import static waits.Waiting.waitElementDisplays;
 
 public class MainPage {
     private WebDriver driver;
-
+    @FindBy(css = "body")
+    private WebElement body;
     @FindBy(id = "username")
     private WebElement username0;
     @FindBy(id = "password")
@@ -124,5 +125,14 @@ public class MainPage {
     @Step("Получаю текст из заголовка поля UserName")
     public String getTextFromHeadlineUserName() {
         return headlineUserName.getText();
+    }
+
+    @Step("Возвращает поле описание")
+    public WebElement getDescription() {
+        return description;
+    }
+     @Step("Возвращает тело страницы")
+    public WebElement getBody() {
+        return body;
     }
 }

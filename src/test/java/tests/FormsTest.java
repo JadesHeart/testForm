@@ -57,10 +57,10 @@ public class FormsTest {
     @Feature(value = "Тест страницы авторизации")
     @Story(value = "Проверка наличия скрола страницы")
     @Test
-    public void test() {
+    public void testJavaScriptExecutor() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
-        javaScripts.removeCursor("#formly_1_input_username_0");
-        Assert.assertFalse(javaScripts.checkScroll("body"), "scrollHeight больше offsetHeight");
+        javaScripts.removeCursor();
+        Assert.assertFalse(javaScripts.checkScroll("body"), "Высота скролла больше заданной высоты");
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
