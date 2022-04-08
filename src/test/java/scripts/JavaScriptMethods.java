@@ -3,6 +3,7 @@ package scripts;
 import io.qameta.allure.Step;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import pages.MainPage;
 
 
@@ -16,12 +17,12 @@ public class JavaScriptMethods {
     }
 
     @Step("С помощью JS скрипта убирает курсор с поля описания")
-    public void removeCursor() {
-        js.executeScript("arguments[0].blur()", mainPage.getDescription());
+    public void removeCursor(WebElement description) {
+        js.executeScript("arguments[0].blur()",description );
     }
 
     @Step("Проверяет наличие скрола на странице. Если его нет вовзращает false")
-    public Boolean checkScroll(String locator) {
-        return (Boolean) js.executeScript("return arguments[0].scrollHeight>arguments[0].offsetHeight", mainPage.getBody());
+    public Boolean checkScroll(WebElement body) {
+        return (Boolean) js.executeScript("return arguments[0].scrollHeight>arguments[0].offsetHeight", body);
     }
 }

@@ -59,8 +59,8 @@ public class FormsTest {
     @Test
     public void testJavaScriptExecutor() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
-        javaScripts.removeCursor();
-        Assert.assertFalse(javaScripts.checkScroll("body"), "Высота скролла больше заданной высоты");
+        javaScripts.removeCursor(mainPage.getDescription());
+        Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
