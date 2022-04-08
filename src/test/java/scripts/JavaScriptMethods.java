@@ -17,8 +17,8 @@ public class JavaScriptMethods {
     }
 
     @Step("С помощью JS скрипта убирает курсор с поля описания")
-    public void removeCursor(WebElement description) {
-        js.executeScript("arguments[0].blur()",description );
+    public void removeCursor(WebElement element) {
+        js.executeScript("arguments[0].blur()",element);
     }
 
     @Step("Проверяет наличие скрола на странице. Если его нет вовзращает false")
