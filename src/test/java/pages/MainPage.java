@@ -10,7 +10,8 @@ import static waits.Waiting.waitElementDisplays;
 
 public class MainPage {
     private WebDriver driver;
-
+    @FindBy(css = "body")
+    private WebElement body;
     @FindBy(id = "username")
     private WebElement username0;
     @FindBy(id = "password")
@@ -70,7 +71,7 @@ public class MainPage {
      * @return Возвращает текст блока на новой странице, если переход был совершён
      */
     @Step("Ожидание элемента успешной авторизации")
-    public String getPositiveResponseText() throws Exception {
+    public String getPositiveResponseText() {
         waitElementDisplays(positiveResponseLocator, driver);
         return positiveResponseLocator.getText();
     }
@@ -122,7 +123,16 @@ public class MainPage {
     }
 
     @Step("Получаю текст из заголовка поля UserName")
-    public String getTextFromHeadlineUserNamet() {
+    public String getTextFromHeadlineUserName() {
         return headlineUserName.getText();
+    }
+
+    @Step("Возвращает поле описание")
+    public WebElement getDescription() {
+        return description;
+    }
+     @Step("Возвращает тело страницы")
+    public WebElement getBody() {
+        return body;
     }
 }
