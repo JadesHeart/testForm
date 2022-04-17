@@ -8,7 +8,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -17,7 +17,12 @@ import pages.SQLExPage;
 import properties.ReadProperties;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
+
+import static seleniumGrid.Capabilites.setCapabilites;
+import static seleniumGrid.StartBatScripts.startFirstNode;
+import static seleniumGrid.StartBatScripts.startHub;
 
 public class CookieTest {
     private WebDriver driver;
@@ -30,9 +35,14 @@ public class CookieTest {
      * Открывает сайт
      */
     @BeforeMethod
-    public void startBrowser() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
-        driver = new ChromeDriver();
+    public void startBrowser() throws IOException, InterruptedException {
+        startHub();
+        Thread.sleep(5000);
+        startFirstNode();
+        Thread.sleep(5000);
+
+        driver = new RemoteWebDriver(new URL("http://192.168.0.11:5555/wd/hub"), setCapabilites());
+
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

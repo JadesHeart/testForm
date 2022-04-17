@@ -8,7 +8,7 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import listener.FailureListener;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -20,8 +20,13 @@ import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.time.Duration;
+
+import static seleniumGrid.Capabilites.setCapabilites;
+import static seleniumGrid.StartBatScripts.startFirstNode;
 
 
 /**
@@ -33,7 +38,6 @@ public class FormsTest {
     private static MainPage mainPage;
     private static JavaScriptMethods javaScripts;
 
-
     public static WebDriver getDriver() {
         return driver;
     }
@@ -42,9 +46,13 @@ public class FormsTest {
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
-        driver = new ChromeDriver();
+    public void startBrowser() throws IOException, InterruptedException {
+        // System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
+        Thread.sleep(5000);
+        startFirstNode();
+        Thread.sleep(5000);
+
+        driver = new RemoteWebDriver(new URL("http://192.168.0.11:5555/wd/hub"), setCapabilites());
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
@@ -62,7 +70,7 @@ public class FormsTest {
         javaScripts.removeCursor(mainPage.getDescription());
         Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
-
+/*
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
@@ -80,6 +88,7 @@ public class FormsTest {
     public void testHeadlineUserNameText() {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
+*/
 
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
