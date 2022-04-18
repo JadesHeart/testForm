@@ -1,6 +1,7 @@
 package tests;
 
 import cookies.ActionsWithCookies;
+import grid.InvalidResponseFromServer;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -18,10 +19,9 @@ import properties.ReadProperties;
 import java.io.IOException;
 import java.time.Duration;
 
-import static driver.GetDriver.getGridDriver;
+import static driver.GetDriver.getChromeDriver;
 import static grid.StartBatScripts.startFirstNode;
 import static grid.StartBatScripts.startHub;
-import static waits.Waiting.waitPositiveResponse;
 
 public class CookieTest {
     private WebDriver driver;
@@ -34,13 +34,11 @@ public class CookieTest {
      * Открывает сайт
      */
     @BeforeMethod
-    public void startBrowser() throws IOException, InterruptedException {
+    public void startBrowser() throws IOException,InvalidResponseFromServer {
         startHub();
-        waitPositiveResponse("http://192.168.0.11:4444/");
         startFirstNode();
-        waitPositiveResponse("http://192.168.0.11:5555");
 
-        driver = getGridDriver("5555");
+        driver = getChromeDriver("Grid");
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

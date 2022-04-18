@@ -1,5 +1,6 @@
 package tests;
 
+import grid.InvalidResponseFromServer;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -23,8 +24,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-import static driver.GetDriver.getGridDriver;
-import static grid.StartBatScripts.startSecondNode;
+import static driver.GetDriver.getChromeDriver;
+import static grid.StartBatScripts.startFirstNode;
 import static waits.Waiting.waitPositiveResponse;
 
 
@@ -45,13 +46,12 @@ public class FormsTest {
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() throws IOException, InterruptedException {
+    public void startBrowser() throws IOException, InvalidResponseFromServer {
         waitPositiveResponse("http://192.168.0.11:4444/");
-        startSecondNode();
-        waitPositiveResponse("http://192.168.0.11:5556");
+        startFirstNode();
+        waitPositiveResponse("http://192.168.0.11:5555");
 
-        //driver = getDefaultDriver();
-        driver = getGridDriver("5556");
+        driver = getChromeDriver("Grid");
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();

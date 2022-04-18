@@ -1,5 +1,6 @@
 package waits;
 
+import grid.InvalidResponseFromServer;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,11 +29,13 @@ public class Waiting {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public static void waitPositiveResponse(String link) throws IOException {
+    public static void waitPositiveResponse(String link) throws IOException, InvalidResponseFromServer {
         URL url = new URL(link);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        while (connection.getResponseCode() != 200) {
-            continue;
+        connection.setConnectTimeout(100000);
+        if (connection.getResponseCode() != 200) {
+            throw new InvalidResponseFromServer("Сервер не отвечает кодом 200");
         }
+        connection.disconnect();
     }
 }

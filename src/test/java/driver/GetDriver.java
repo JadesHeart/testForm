@@ -17,15 +17,18 @@ public class GetDriver {
         return driver;
     }
 
-    public static WebDriver getGridDriver(String port) throws MalformedURLException {
+    public static WebDriver getGridDriver() throws MalformedURLException {
         WebDriver driver;
-        switch (port) {
-            case "5555":
-                return driver = new RemoteWebDriver(new URL(ReadProperties.getProperty("port5555")), getCapabilites());
-            case "5556":
-                return driver = new RemoteWebDriver(new URL(ReadProperties.getProperty("port5556")), getCapabilites());
-            default:
-                return null;
+        return driver = new RemoteWebDriver(new URL(ReadProperties.getProperty("port5555")), getCapabilites());
+    }
+
+    public static WebDriver getChromeDriver(String typeOfDriver) throws MalformedURLException {
+        if (typeOfDriver == "Default") {
+            return getDefaultDriver();
+        } else if (typeOfDriver == "Grid") {
+            return getGridDriver();
+        } else {
+            return null;
         }
     }
 }
