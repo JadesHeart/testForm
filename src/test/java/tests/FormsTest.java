@@ -8,7 +8,6 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import listener.FailureListener;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -22,11 +21,11 @@ import scripts.JavaScriptMethods;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.time.Duration;
 
-import static seleniumGrid.Capabilites.setCapabilites;
-import static seleniumGrid.StartBatScripts.startFirstNode;
+import static driver.GetDriver.getGridDriver;
+import static grid.StartBatScripts.startSecondNode;
+import static waits.Waiting.waitPositiveResponse;
 
 
 /**
@@ -47,12 +46,12 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() throws IOException, InterruptedException {
-        // System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
-        Thread.sleep(5000);
-        startFirstNode();
-        Thread.sleep(5000);
+        waitPositiveResponse("http://192.168.0.11:4444/");
+        startSecondNode();
+        waitPositiveResponse("http://192.168.0.11:5556");
 
-        driver = new RemoteWebDriver(new URL("http://192.168.0.11:5555/wd/hub"), setCapabilites());
+        //driver = getDefaultDriver();
+        driver = getGridDriver("5556");
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();

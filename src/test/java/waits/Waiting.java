@@ -1,11 +1,13 @@
 package waits;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.Duration;
 
 /**
@@ -26,4 +28,11 @@ public class Waiting {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public static void waitPositiveResponse(String link) throws IOException {
+        URL url = new URL(link);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        while (connection.getResponseCode() != 200) {
+            continue;
+        }
+    }
 }
