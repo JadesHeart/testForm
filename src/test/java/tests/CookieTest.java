@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.time.Duration;
 
 import static driver.GetDriver.getChromeDriver;
-import static grid.StartBatScripts.startFirstNode;
-import static grid.StartBatScripts.startHub;
 
 public class CookieTest {
     private WebDriver driver;
@@ -34,11 +32,8 @@ public class CookieTest {
      * Открывает сайт
      */
     @BeforeMethod
-    public void startBrowser() throws IOException,InvalidResponseFromServer {
-        startHub();
-        startFirstNode();
-
-        driver = getChromeDriver("Grid");
+    public void startBrowser() throws IOException, InvalidResponseFromServer {
+        driver = getChromeDriver(ReadProperties.getProperty("grid"), Boolean.TRUE);
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import properties.ReadProperties;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -32,8 +33,9 @@ public class Waiting {
     public static void waitPositiveResponse(String link) throws IOException, InvalidResponseFromServer {
         URL url = new URL(link);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setConnectTimeout(100000);
+        connection.setConnectTimeout(ReadProperties.getIntProperty("timeOutHttp"));
         if (connection.getResponseCode() != 200) {
+            connection.disconnect();
             throw new InvalidResponseFromServer("Сервер не отвечает кодом 200");
         }
         connection.disconnect();
