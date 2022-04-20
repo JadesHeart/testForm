@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-import static driver.GetDriver.getChromeDriver;
+import static driver.GetDriver.getGridDriver;
 
 
 /**
@@ -45,7 +45,7 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() throws IOException, InvalidResponseFromServer {
-        driver = getChromeDriver(ReadProperties.getProperty("grid"), Boolean.FALSE);
+        driver = getGridDriver();
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();

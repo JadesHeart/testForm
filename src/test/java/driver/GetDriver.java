@@ -21,22 +21,21 @@ public class GetDriver {
         return driver;
     }
 
-    public static WebDriver getGridDriver(Boolean startHub) throws IOException, InvalidResponseFromServer {
-        WebDriver driver;
-        if (startHub) {
-            startHub();
-            waitPositiveResponse("http://localhost:4444/");
-        }
-        startFirstNode();
+    public static WebDriver getGridDriver() throws IOException, InvalidResponseFromServer {
+        waitPositiveResponse("http://localhost:4444/");
         waitPositiveResponse("http://localhost:5555/");
-        return driver = new RemoteWebDriver(new URL(ReadProperties.getProperty("port5555")), getCapabilites());
+        return new RemoteWebDriver(new URL(ReadProperties.getProperty("port5555")), getCapabilites());
     }
 
-    public static WebDriver getChromeDriver(String typeOfDriver, Boolean startHub) throws IOException, InvalidResponseFromServer {
-        if (typeOfDriver == "Default") {
+    public static WebDriver getChromeDriver(String driverType) throws IOException, InvalidResponseFromServer {
+        if (driverType == "Default") {
             return getDefaultDriver();
-        } else if (typeOfDriver == ReadProperties.getProperty("grid")) {
-            return getGridDriver(startHub);
+        } else if (driverType == ReadProperties.getProperty("grid")) {
+            startHub();
+            waitPositiveResponse("http://localhost:4444/");
+            startFirstNode();
+            waitPositiveResponse("http://localhost:5555/");
+            return getGridDriver();
         } else {
             return null;
         }

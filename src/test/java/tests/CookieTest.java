@@ -33,7 +33,7 @@ public class CookieTest {
      */
     @BeforeMethod
     public void startBrowser() throws IOException, InvalidResponseFromServer {
-        driver = getChromeDriver(ReadProperties.getProperty("grid"), Boolean.TRUE);
+        driver = getChromeDriver(ReadProperties.getProperty("grid"));
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();
