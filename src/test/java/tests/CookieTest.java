@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import pages.SQLExPage;
 import properties.ReadProperties;
@@ -20,6 +21,9 @@ import java.io.IOException;
 import java.time.Duration;
 
 import static driver.GetDriver.getChromeDriver;
+import static grid.StartBatScripts.startFirstNode;
+import static grid.StartBatScripts.startHub;
+import static waits.Waiting.waitPositiveResponse;
 
 public class CookieTest {
     private WebDriver driver;
@@ -31,6 +35,14 @@ public class CookieTest {
      * Запускает браузер
      * Открывает сайт
      */
+    @BeforeSuite
+    public void startGrid() throws InvalidResponseFromServer, IOException {
+        startHub();
+        waitPositiveResponse("http://localhost:4444/");
+        startFirstNode();
+        waitPositiveResponse("http://localhost:5555/");
+    }
+
     @BeforeMethod
     public void startBrowser() throws IOException, InvalidResponseFromServer {
         driver = getChromeDriver(ReadProperties.getProperty("grid"));

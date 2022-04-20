@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import static grid.Capabilites.getCapabilites;
-import static grid.StartBatScripts.startFirstNode;
-import static grid.StartBatScripts.startHub;
-import static waits.Waiting.waitPositiveResponse;
 
 public class GetDriver {
     public static WebDriver getDefaultDriver() {
@@ -22,8 +19,6 @@ public class GetDriver {
     }
 
     public static WebDriver getGridDriver() throws IOException, InvalidResponseFromServer {
-        waitPositiveResponse("http://localhost:4444/");
-        waitPositiveResponse("http://localhost:5555/");
         return new RemoteWebDriver(new URL(ReadProperties.getProperty("port5555")), getCapabilites());
     }
 
@@ -31,10 +26,6 @@ public class GetDriver {
         if (driverType == "Default") {
             return getDefaultDriver();
         } else if (driverType == ReadProperties.getProperty("grid")) {
-            startHub();
-            waitPositiveResponse("http://localhost:4444/");
-            startFirstNode();
-            waitPositiveResponse("http://localhost:5555/");
             return getGridDriver();
         } else {
             return null;
