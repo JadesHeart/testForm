@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-import static driver.GetDriver.getGridDriver;
+import static driver.GetDriver.getChromeDriver;
 import static grid.StartBatScripts.startFirstNode;
 import static grid.StartBatScripts.startHub;
 import static waits.Waiting.waitPositiveResponse;
@@ -43,6 +43,7 @@ public class FormsTest {
     public static WebDriver getDriver() {
         return driver;
     }
+
     @BeforeSuite
     public void startGrid() throws InvalidResponseFromServer, IOException {
         startHub();
@@ -55,7 +56,7 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() throws IOException, InvalidResponseFromServer {
-        driver = getGridDriver();
+        driver = getChromeDriver(ReadProperties.getProperty("grid"));
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
