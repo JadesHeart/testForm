@@ -10,7 +10,7 @@ public class StartBatScripts {
         waitPositiveResponse("http://localhost:4444/");
     }
 
-    public static void startFirstNode() throws IOException , InvalidResponseFromServer{
+    public static void startNode() throws IOException , InvalidResponseFromServer{
         Runtime.getRuntime().exec("cmd /c src\\test\\resources\\BatFiles\\StartNodeOne.bat");
         waitPositiveResponse("http://localhost:4444/");
     }

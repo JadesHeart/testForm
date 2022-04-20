@@ -1,6 +1,5 @@
 package driver;
 
-import grid.InvalidResponseFromServer;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -13,16 +12,14 @@ import static grid.Capabilites.getCapabilites;
 
 public class GetDriver {
     public static WebDriver getDefaultDriver() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        return driver;
+        return new ChromeDriver();
     }
 
-    public static WebDriver getGridDriver() throws IOException, InvalidResponseFromServer {
-        return new RemoteWebDriver(new URL(ReadProperties.getProperty("port5555")), getCapabilites());
+    public static WebDriver getGridDriver() throws IOException {
+        return new RemoteWebDriver(new URL(ReadProperties.getProperty("nodePort")), getCapabilites());
     }
 
-    public static WebDriver getChromeDriver(String driverType) throws IOException, InvalidResponseFromServer {
+    public static WebDriver getChromeDriver(String driverType) throws IOException {
         if (driverType == "Default") {
             return getDefaultDriver();
         } else if (driverType == ReadProperties.getProperty("grid")) {

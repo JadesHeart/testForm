@@ -1,6 +1,5 @@
 package tests;
 
-import grid.InvalidResponseFromServer;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -12,7 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
@@ -26,9 +24,6 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 
 import static driver.GetDriver.getChromeDriver;
-import static grid.StartBatScripts.startFirstNode;
-import static grid.StartBatScripts.startHub;
-import static waits.Waiting.waitPositiveResponse;
 
 
 /**
@@ -44,18 +39,11 @@ public class FormsTest {
         return driver;
     }
 
-    @BeforeSuite
-    public void startGrid() throws InvalidResponseFromServer, IOException {
-        startHub();
-        waitPositiveResponse("http://localhost:4444/");
-        startFirstNode();
-        waitPositiveResponse("http://localhost:5555/");
-    }
     /**
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() throws IOException, InvalidResponseFromServer {
+    public void startBrowser() throws IOException {
         driver = getChromeDriver(ReadProperties.getProperty("grid"));
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
@@ -103,7 +91,7 @@ public class FormsTest {
     @Feature(value = "Тест формы авторизации")
     @Story(value = "Авторизация с верными параметрами логина/пароля")
     @Test
-    public void enteringTrueValues() throws Exception {
+    public void enteringTrueValues() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getPositiveResponseText(), ReadProperties.getProperty("home"));
