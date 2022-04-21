@@ -26,5 +26,8 @@ public class ReadProperties {
     public static synchronized String getProperty(String key) {
         return properties.getProperty(key);
     }
+    public static synchronized int getIntProperty(String key){
+        return Integer.parseInt(properties.getProperty(key));
+    }
 }
 

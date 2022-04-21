@@ -8,7 +8,6 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -18,6 +17,8 @@ import properties.ReadProperties;
 
 import java.io.IOException;
 import java.time.Duration;
+
+import static driver.GetDriver.getChromeDriver;
 
 public class CookieTest {
     private WebDriver driver;
@@ -30,9 +31,8 @@ public class CookieTest {
      * Открывает сайт
      */
     @BeforeMethod
-    public void startBrowser() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
-        driver = new ChromeDriver();
+    public void startBrowser() throws IOException{
+        driver = getChromeDriver(ReadProperties.getProperty("grid"));
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

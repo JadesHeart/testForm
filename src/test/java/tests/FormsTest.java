@@ -8,7 +8,6 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import listener.FailureListener;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -20,8 +19,11 @@ import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
+
+import static driver.GetDriver.getChromeDriver;
 
 
 /**
@@ -33,7 +35,6 @@ public class FormsTest {
     private static MainPage mainPage;
     private static JavaScriptMethods javaScripts;
 
-
     public static WebDriver getDriver() {
         return driver;
     }
@@ -42,9 +43,8 @@ public class FormsTest {
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
-        driver = new ChromeDriver();
+    public void startBrowser() throws IOException {
+        driver = getChromeDriver(ReadProperties.getProperty("grid"));
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
@@ -62,7 +62,7 @@ public class FormsTest {
         javaScripts.removeCursor(mainPage.getDescription());
         Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
-
+/*
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
@@ -80,6 +80,7 @@ public class FormsTest {
     public void testHeadlineUserNameText() {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
+*/
 
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
@@ -90,7 +91,7 @@ public class FormsTest {
     @Feature(value = "Тест формы авторизации")
     @Story(value = "Авторизация с верными параметрами логина/пароля")
     @Test
-    public void enteringTrueValues() throws Exception {
+    public void enteringTrueValues() {
         mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getPositiveResponseText(), ReadProperties.getProperty("home"));
