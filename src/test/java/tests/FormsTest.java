@@ -30,6 +30,7 @@ import static driver.GetDriver.getChromeDriver;
  * Класс с
  */
 @Listeners(FailureListener.class)
+@Test(priority = 2, retryAnalyzer = StartDroppedTests.class)
 public class FormsTest {
     private static WebDriver driver;
     private static MainPage mainPage;
@@ -44,12 +45,13 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() throws IOException {
-        driver = getChromeDriver(ReadProperties.getProperty("grid"));
+        driver = getChromeDriver("Default");
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("baseURL"));
+
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
@@ -62,25 +64,25 @@ public class FormsTest {
         javaScripts.removeCursor(mainPage.getDescription());
         Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
-/*
-    @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
-    @Epic(value = "Тестирования пользовательского интерфейса")
-    @Feature(value = "Падающие тесты")
-    @Story(value = "Попытка получить текст из несуществующего элемента")
-    @Test
-    public void waitingMissingElement() {
-        Assert.assertEquals(mainPage.getTextFromNonExistentElement(), ReadProperties.getProperty("EmptyText"));
-    }
 
+    /*
+            @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
+            @Epic(value = "Тестирования пользовательского интерфейса")
+            @Feature(value = "Падающие тесты")
+            @Story(value = "Попытка получить текст из несуществующего элемента")
+            public void waitingMissingElement() {
+                Assert.assertEquals(mainPage.getTextFromNonExistentElement(), ReadProperties.getProperty("EmptyText"));
+            }
+    */
     @Description(value = "Тест берёт текст из элемента и ассёртит с случайным текстом и получает ошибку")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
     @Story(value = "Текст из элемента сравнивается с другим текстом")
-    @Test
+    @Test(priority = 2, retryAnalyzer = StartDroppedTests.class)
     public void testHeadlineUserNameText() {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
-*/
+
 
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
