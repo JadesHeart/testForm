@@ -21,10 +21,6 @@ public class BaseTestClass {
             waitPositiveResponse("http://localhost:5555/");
         } else {
             System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
-            startHub();
-            waitPositiveResponse("http://localhost:4444/");
-            startNode();
-            waitPositiveResponse("http://localhost:5555/");
         }
     }
 }
