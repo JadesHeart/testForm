@@ -11,7 +11,7 @@ import java.net.URL;
 import static grid.Capabilites.getCapabilites;
 
 public class GetDriver {
-    public static WebDriver getDefaultDriver() {
+    public static WebDriver getCommonDriver() {
         return new ChromeDriver();
     }
 
@@ -20,9 +20,9 @@ public class GetDriver {
     }
 
     public static WebDriver getChromeDriver(String driverType) throws IOException {
-        if (driverType == "Default") {
-            return getDefaultDriver();
-        } else if (driverType == ReadProperties.getProperty("grid")) {
+        if (driverType == "Common") {
+            return getCommonDriver();
+        } else if (driverType == ReadProperties.getProperty("gridNamed")) {
             return getGridDriver();
         } else {
             return null;

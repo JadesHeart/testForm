@@ -32,7 +32,7 @@ public class CookieTest {
      */
     @BeforeMethod
     public void startBrowser() throws IOException{
-        driver = getChromeDriver(ReadProperties.getProperty("grid"));
+        driver = getChromeDriver(ReadProperties.getProperty("gridNamed"));
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();
