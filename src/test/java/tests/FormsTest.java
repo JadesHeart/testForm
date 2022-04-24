@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
+import scripts.StartFailedTests;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -30,7 +31,7 @@ import static driver.GetDriver.getChromeDriver;
  * Класс с
  */
 @Listeners(FailureListener.class)
-@Test(priority = 2, retryAnalyzer = StartDroppedTests.class)
+@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
 public class FormsTest {
     private static WebDriver driver;
     private static MainPage mainPage;
@@ -65,20 +66,20 @@ public class FormsTest {
         Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
 
-    /*
-            @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
-            @Epic(value = "Тестирования пользовательского интерфейса")
-            @Feature(value = "Падающие тесты")
-            @Story(value = "Попытка получить текст из несуществующего элемента")
-            public void waitingMissingElement() {
-                Assert.assertEquals(mainPage.getTextFromNonExistentElement(), ReadProperties.getProperty("EmptyText"));
-            }
-    */
+    @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Падающие тесты")
+    @Story(value = "Попытка получить текст из несуществующего элемента")
+    @Test(enabled = false)
+    public void waitingMissingElement() {
+        Assert.assertEquals(mainPage.getTextFromNonExistentElement(), ReadProperties.getProperty("EmptyText"));
+    }
+
     @Description(value = "Тест берёт текст из элемента и ассёртит с случайным текстом и получает ошибку")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
     @Story(value = "Текст из элемента сравнивается с другим текстом")
-    @Test(priority = 2, retryAnalyzer = StartDroppedTests.class)
+    @Test(priority = 2, retryAnalyzer = StartFailedTests.class,enabled = false)
     public void testHeadlineUserNameText() {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
