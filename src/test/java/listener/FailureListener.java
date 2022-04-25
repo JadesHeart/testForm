@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class FailureListener implements ITestListener {
+
     @Override
     public void onTestFailure(ITestResult result) {
         try {
@@ -20,6 +21,7 @@ public class FailureListener implements ITestListener {
             e.printStackTrace();
         }
     }
+
 
     @Attachment(value = "PNG Attachment {0}", type = "image/png")
     public byte[] createAttachment() throws IOException {
@@ -36,4 +38,3 @@ public class FailureListener implements ITestListener {
         return imageInByte;
     }
 }
-

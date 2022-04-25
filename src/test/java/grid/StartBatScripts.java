@@ -1,5 +1,7 @@
 package grid;
 
+import properties.ReadProperties;
+
 import java.io.IOException;
 
 import static waits.Waiting.waitPositiveResponse;
@@ -12,6 +14,6 @@ public class StartBatScripts {
 
     public static void startNode() throws IOException , InvalidResponseFromServer{
         Runtime.getRuntime().exec("cmd /c src\\test\\resources\\BatFiles\\StartNodeOne.bat");
-        waitPositiveResponse("http://localhost:4444/");
+        waitPositiveResponse(ReadProperties.getProperty("hub.url"));
     }
 }

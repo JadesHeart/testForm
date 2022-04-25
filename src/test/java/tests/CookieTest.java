@@ -18,7 +18,7 @@ import properties.ReadProperties;
 import java.io.IOException;
 import java.time.Duration;
 
-import static driver.GetDriver.getChromeDriver;
+import static driver.Driver.selectingRemoteDriver;
 
 public class CookieTest {
     private WebDriver driver;
@@ -32,7 +32,7 @@ public class CookieTest {
      */
     @BeforeMethod
     public void startBrowser() throws IOException{
-        driver = getChromeDriver(ReadProperties.getProperty("grid"));
+        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"));
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

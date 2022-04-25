@@ -18,18 +18,20 @@ import org.testng.annotations.Test;
 import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
+import scripts.StartFailedTests;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-import static driver.GetDriver.getChromeDriver;
+import static driver.Driver.selectingRemoteDriver;
 
 
 /**
  * Класс с
  */
 @Listeners(FailureListener.class)
+@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
 public class FormsTest {
     private static WebDriver driver;
     private static MainPage mainPage;
@@ -44,12 +46,13 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() throws IOException {
-        driver = getChromeDriver(ReadProperties.getProperty("grid"));
+        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"));
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("baseURL"));
+
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
@@ -58,16 +61,16 @@ public class FormsTest {
     @Story(value = "Проверка наличия скрола страницы")
     @Test
     public void testJavaScriptExecutor() {
-        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        mainPage.enteringParameters(ReadProperties.getProperty("profile.login"), ReadProperties.getProperty("profile.password"), ReadProperties.getProperty("profile.description"));
         javaScripts.removeCursor(mainPage.getDescription());
         Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
-/*
+
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
     @Story(value = "Попытка получить текст из несуществующего элемента")
-    @Test
+    @Test(enabled = false)
     public void waitingMissingElement() {
         Assert.assertEquals(mainPage.getTextFromNonExistentElement(), ReadProperties.getProperty("EmptyText"));
     }
@@ -76,11 +79,11 @@ public class FormsTest {
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
     @Story(value = "Текст из элемента сравнивается с другим текстом")
-    @Test
+    @Test(priority = 2, retryAnalyzer = StartFailedTests.class,enabled = false)
     public void testHeadlineUserNameText() {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
-*/
+
 
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
@@ -92,7 +95,7 @@ public class FormsTest {
     @Story(value = "Авторизация с верными параметрами логина/пароля")
     @Test
     public void enteringTrueValues() {
-        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        mainPage.enteringParameters(ReadProperties.getProperty("profile.login"), ReadProperties.getProperty("profile.password"), ReadProperties.getProperty("profile.description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getPositiveResponseText(), ReadProperties.getProperty("home"));
         driver.get(ReadProperties.getProperty("baseURL"));
@@ -108,7 +111,7 @@ public class FormsTest {
     @Story(value = "Авторизация с НЕ верным параметром логина")
     @Test
     public void enteringFalseLogin() {
-        mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("profile.password"), ReadProperties.getProperty("profile.description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getErrorMessageText(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
@@ -120,7 +123,7 @@ public class FormsTest {
     @Story(value = "Авторизация с НЕ верным параметром пароля")
     @Test
     public void enteringFalsePassword() {
-        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
+        mainPage.enteringParameters(ReadProperties.getProperty("profile.login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("profile.description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getErrorMessageText(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }

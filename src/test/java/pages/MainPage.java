@@ -14,7 +14,7 @@ public class MainPage {
     private WebElement body;
     @FindBy(id = "username")
     private WebElement username0;
-    @FindBy(id = "password")
+    @FindBy(id = "profile.password")
     private WebElement password;
     @FindBy(id = "formly_1_input_username_0")
     private WebElement description;

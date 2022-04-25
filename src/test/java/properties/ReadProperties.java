@@ -29,5 +29,8 @@ public class ReadProperties {
     public static synchronized int getIntProperty(String key){
         return Integer.parseInt(properties.getProperty(key));
     }
+    public static synchronized boolean getBoolProperty(String key){return Boolean.parseBoolean(properties.getProperty(key));}
+    public static synchronized float getFloatProperty(String key){return Float.parseFloat(properties.getProperty(key));}
+
 }
 

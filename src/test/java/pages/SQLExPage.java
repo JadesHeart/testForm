@@ -10,7 +10,7 @@ import static waits.Waiting.waitElementDisplays;
 
 public class SQLExPage {
     private WebDriver driver;
-    @FindBy(name = "login")
+    @FindBy(name = "profile.login")
     private WebElement loginInput;
     @FindBy(name = "psw")
     private WebElement passwordInput;
