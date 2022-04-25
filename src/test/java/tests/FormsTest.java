@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
-import static driver.GetDriver.getChromeDriver;
+import static driver.Driver.selectingRemoteDriver;
 
 
 /**
@@ -46,7 +46,7 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() throws IOException {
-        driver = getChromeDriver("Default");
+        driver = selectingRemoteDriver(Boolean.TRUE);
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();

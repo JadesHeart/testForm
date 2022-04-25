@@ -10,22 +10,20 @@ import java.net.URL;
 
 import static grid.Capabilites.getCapabilites;
 
-public class GetDriver {
-    public static WebDriver getCommonDriver() {
+public class Driver {
+    private static WebDriver getChromeDriver() {
         return new ChromeDriver();
     }
 
-    public static WebDriver getGridDriver() throws IOException {
+    private static WebDriver getWebGridDriver() throws IOException {
         return new RemoteWebDriver(new URL(ReadProperties.getProperty("hub.url")), getCapabilites());
     }
 
-    public static WebDriver getChromeDriver(String driverType) throws IOException {
-        if (driverType == "Common") {
-            return getCommonDriver();
-        } else if (driverType == ReadProperties.getProperty("getGridDriver")) {
-            return getGridDriver();
+    public static WebDriver selectingRemoteDriver(Boolean remote) throws IOException {
+        if (remote) {
+            return getWebGridDriver();
         } else {
-            return null;
+            return getChromeDriver();
         }
     }
 }
