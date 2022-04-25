@@ -46,7 +46,7 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() throws IOException {
-        driver = selectingRemoteDriver(Boolean.parseBoolean(ReadProperties.getProperty("remote")));
+        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"));
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
