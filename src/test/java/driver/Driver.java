@@ -19,16 +19,8 @@ public class Driver {
         return new RemoteWebDriver(new URL(ReadProperties.getProperty("hub.url")), getCapabilites());
     }
 
-    private static Boolean remoteBoolean(String remote) {
-        if (remote == "Boolean.TRUE") {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
-    }
-
-    public static WebDriver selectingRemoteDriver(String remote) throws IOException {
-        if (remoteBoolean(remote)) {
+    public static WebDriver selectingRemoteDriver(Boolean remote) throws IOException {
+        if (remote) {
             return getWebGridDriver();
         } else {
             return getChromeDriver();
