@@ -16,13 +16,13 @@ public class GetDriver {
     }
 
     public static WebDriver getGridDriver() throws IOException {
-        return new RemoteWebDriver(new URL(ReadProperties.getProperty("nodePort")), getCapabilites());
+        return new RemoteWebDriver(new URL(ReadProperties.getProperty("hub.url")), getCapabilites());
     }
 
     public static WebDriver getChromeDriver(String driverType) throws IOException {
         if (driverType == "Common") {
             return getCommonDriver();
-        } else if (driverType == ReadProperties.getProperty("gridNamed")) {
+        } else if (driverType == ReadProperties.getProperty("getGridDriver")) {
             return getGridDriver();
         } else {
             return null;

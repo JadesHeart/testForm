@@ -61,7 +61,7 @@ public class FormsTest {
     @Story(value = "Проверка наличия скрола страницы")
     @Test
     public void testJavaScriptExecutor() {
-        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        mainPage.enteringParameters(ReadProperties.getProperty("profile.login"), ReadProperties.getProperty("profile.password"), ReadProperties.getProperty("profile.description"));
         javaScripts.removeCursor(mainPage.getDescription());
         Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
@@ -95,7 +95,7 @@ public class FormsTest {
     @Story(value = "Авторизация с верными параметрами логина/пароля")
     @Test
     public void enteringTrueValues() {
-        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        mainPage.enteringParameters(ReadProperties.getProperty("profile.login"), ReadProperties.getProperty("profile.password"), ReadProperties.getProperty("profile.description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getPositiveResponseText(), ReadProperties.getProperty("home"));
         driver.get(ReadProperties.getProperty("baseURL"));
@@ -111,7 +111,7 @@ public class FormsTest {
     @Story(value = "Авторизация с НЕ верным параметром логина")
     @Test
     public void enteringFalseLogin() {
-        mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("password"), ReadProperties.getProperty("description"));
+        mainPage.enteringParameters(ReadProperties.getProperty("falseLogin"), ReadProperties.getProperty("profile.password"), ReadProperties.getProperty("profile.description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getErrorMessageText(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
@@ -123,7 +123,7 @@ public class FormsTest {
     @Story(value = "Авторизация с НЕ верным параметром пароля")
     @Test
     public void enteringFalsePassword() {
-        mainPage.enteringParameters(ReadProperties.getProperty("login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("description"));
+        mainPage.enteringParameters(ReadProperties.getProperty("profile.login"), ReadProperties.getProperty("falsePassword"), ReadProperties.getProperty("profile.description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getErrorMessageText(), ReadProperties.getProperty("UorPincorect"), "Ошибка не появилась");
     }
