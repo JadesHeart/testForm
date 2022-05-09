@@ -7,7 +7,6 @@ public class Capabilites {
 
     public static DesiredCapabilities getCapabilites() {
         DesiredCapabilities capability = new DesiredCapabilities();
-        capability.setBrowserName("chrome");
         capability.setPlatform(Platform.WINDOWS);
         return capability;
     }

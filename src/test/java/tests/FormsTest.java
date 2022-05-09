@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
-import scripts.StartFailedTests;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -31,7 +30,7 @@ import static driver.Driver.selectingRemoteDriver;
  * Класс с
  */
 @Listeners(FailureListener.class)
-@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
+//@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
 public class FormsTest {
     private static WebDriver driver;
     private static MainPage mainPage;
@@ -46,13 +45,12 @@ public class FormsTest {
      */
     @BeforeTest
     public void startBrowser() throws IOException {
-        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"));
+        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"),"Edge");
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("baseURL"));
-
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
@@ -79,7 +77,7 @@ public class FormsTest {
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
     @Story(value = "Текст из элемента сравнивается с другим текстом")
-    @Test(priority = 2, retryAnalyzer = StartFailedTests.class,enabled = false)
+    @Test(priority = 2,enabled = false)
     public void testHeadlineUserNameText() {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }

@@ -32,7 +32,7 @@ public class CookieTest {
      */
     @BeforeMethod
     public void startBrowser() throws IOException{
-        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"));
+        driver = selectingRemoteDriver(Boolean.FALSE,"Chrome");
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

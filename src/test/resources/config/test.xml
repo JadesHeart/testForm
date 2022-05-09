@@ -1,6 +1,6 @@
 <suite name="Test suite" parallel="tests">
-
     <parameter name="name" value="Grid" ></parameter>
+    <parameter name="browserName" value="geckodriver.exe" ></parameter>
     <test name="Integration tests11">
         <classes>
             <class name="tests.BaseTestClass"></class>
