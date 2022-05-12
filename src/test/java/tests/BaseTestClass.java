@@ -6,17 +6,17 @@ import org.testng.annotations.Parameters;
 
 import java.io.IOException;
 
-import static grid.StartBatScripts.*;
+import static grid.StartBatScripts.startHub;
+import static grid.StartBatScripts.startNode;
 import static waits.Waiting.waitPositiveResponse;
 
 public class BaseTestClass {
     @BeforeSuite
-    @Parameters({"name", "browserName"})
-    public void startGrid(String name, String browserName) throws InvalidResponseFromServer, IOException {
+    @Parameters("name")
+    public void startGrid(String name) throws InvalidResponseFromServer, IOException {
         if (name == "Grid") {
             startHub();
             waitPositiveResponse("http://localhost:4444/");
-            setBrowserName(browserName);
             startNode();
             waitPositiveResponse("http://localhost:5555/");
         }

@@ -15,37 +15,40 @@ import java.net.URL;
 import static grid.Capabilites.getCapabilites;
 
 public class Driver {
+    private static String pathToDriverDirectory = System.getProperty("user.dir") + "\\src\\test\\resources\\BatFiles\\";
+
     private static WebDriver getChromeDriver() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\src\\test\\resources\\BatFiles\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", pathToDriverDirectory + "chromedriver.exe");
         return new ChromeDriver();
     }
 
     private static WebDriver getFireFoxDriver() {
-        System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "\\src\\test\\resources\\BatFiles\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", pathToDriverDirectory + "geckodriver.exe");
         return new FirefoxDriver();
     }
 
     private static WebDriver getIEDriver() {
-        System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") +"\\src\\test\\resources\\BatFiles\\IEDriverServer.exe");
+        System.setProperty("webdriver.ie.driver", pathToDriverDirectory + "IEDriverServer.exe");
         return new InternetExplorerDriver();
     }
 
     private static WebDriver getOperaDriver() {
-        System.setProperty("webdriver.opera.driver", System.getProperty("user.dir") + "\\src\\test\\resources\\BatFiles\\operadriver.exe");
+        System.setProperty("webdriver.opera.driver", pathToDriverDirectory + "operadriver.exe");
         return new OperaDriver();
     }
+
     private static WebDriver getEdgeDriver() {
-        System.setProperty("webdriver.edge.driver",System.getProperty("user.dir") + "\\src\\test\\resources\\BatFiles\\msedgedriver.exe");
+        System.setProperty("webdriver.edge.driver", pathToDriverDirectory + "msedgedriver.exe");
         return new EdgeDriver();
     }
 
-    private static WebDriver getWebGridDriver() throws IOException {
-        return new RemoteWebDriver(new URL(ReadProperties.getProperty("hub.url")), getCapabilites());
+    private static WebDriver getWebGridDriver(String browserName) throws IOException {
+        return new RemoteWebDriver(new URL(ReadProperties.getProperty("hub.url")), getCapabilites(browserName));
     }
 
     public static WebDriver selectingRemoteDriver(Boolean remote, String browserName) throws IOException {
         if (remote) {
-            return getWebGridDriver();
+            return getWebGridDriver(browserName);
         } else {
             switch (browserName) {
                 case "Chrome":
