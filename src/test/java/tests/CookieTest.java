@@ -18,8 +18,6 @@ import properties.ReadProperties;
 import java.io.IOException;
 import java.time.Duration;
 
-import static driver.Driver.selectingRemoteDriver;
-
 public class CookieTest {
     private WebDriver driver;
     private SQLExPage dummyRegistration;
@@ -31,8 +29,8 @@ public class CookieTest {
      * Открывает сайт
      */
     @BeforeMethod
-    public void startBrowser() throws IOException {
-        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"), ReadProperties.getProperty("browser"));
+    public void startBrowser() {
+        driver = BaseTestClass.getDriver();
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

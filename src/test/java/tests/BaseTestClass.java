@@ -1,24 +1,29 @@
 package tests;
 
 import grid.InvalidResponseFromServer;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Parameters;
+import properties.ReadProperties;
 
 import java.io.IOException;
 
-import static grid.StartBatScripts.startHub;
-import static grid.StartBatScripts.startNode;
-import static waits.Waiting.waitPositiveResponse;
+import static driver.DriverFactory.selectingDriver;
 
 public class BaseTestClass {
+    private static WebDriver driver;
+
     @BeforeSuite
-    @Parameters("name")
-    public void startGrid(String name) throws InvalidResponseFromServer, IOException {
-        if (name == "Grid") {
-            startHub();
-            waitPositiveResponse("http://localhost:4444/");
-            startNode();
-            waitPositiveResponse("http://localhost:5555/");
-        }
+    public void startGrid() throws InvalidResponseFromServer, IOException {
+        driver = selectingDriver(ReadProperties.getBoolProperty("remote"), ReadProperties.getProperty("browser"));
+    }
+
+    public static WebDriver getDriver() {
+        return driver;
+    }
+
+    @AfterSuite
+    public void closeDriver() {
+        driver.quit();
     }
 }

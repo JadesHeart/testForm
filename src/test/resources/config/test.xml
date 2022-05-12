@@ -1,6 +1,5 @@
 <suite name="Test suite" parallel="tests">
-    <parameter name="name" value="Grid"></parameter>
-    <test name="Integration tests11">
+    <test name="Integration tests1111">
         <classes>
             <class name="tests.BaseTestClass"></class>
         </classes>

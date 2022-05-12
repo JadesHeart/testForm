@@ -20,11 +20,8 @@ import properties.ReadProperties;
 import scripts.JavaScriptMethods;
 import scripts.StartFailedTests;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
-
-import static driver.Driver.selectingRemoteDriver;
 
 
 /**
@@ -45,8 +42,8 @@ public class FormsTest {
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() throws IOException {
-        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"), ReadProperties.getProperty("browser"));
+    public void startBrowser(){
+        driver = BaseTestClass.getDriver();
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();

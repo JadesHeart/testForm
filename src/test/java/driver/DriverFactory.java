@@ -1,5 +1,6 @@
 package driver;
 
+import grid.InvalidResponseFromServer;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -13,9 +14,37 @@ import java.io.IOException;
 import java.net.URL;
 
 import static grid.Capabilites.getCapabilites;
+import static grid.StartBatScripts.startHub;
+import static grid.StartBatScripts.startNode;
+import static waits.Waiting.waitPositiveResponse;
 
-public class Driver {
-    private static String pathToDriverDirectory = System.getProperty("user.dir") + "\\src\\test\\resources\\BatFiles\\";
+public class DriverFactory {
+    private static String pathToDriverDirectory = System.getProperty("user.dir") + "\\src\\test\\resources\\WebDrivers\\";
+
+    public static WebDriver selectingDriver(Boolean remote, String browserName) throws IOException, InvalidResponseFromServer {
+        if (remote) {
+            startHub();
+            waitPositiveResponse("http://localhost:4444/");
+            startNode();
+            waitPositiveResponse("http://localhost:5555/");
+            return getGridDriver(browserName);
+        } else {
+            switch (browserName) {
+                case "Chrome":
+                    return getChromeDriver();
+                case "FireFox":
+                    return getFireFoxDriver();
+                case "IE":
+                    return getIEDriver();
+                case "Edge":
+                    return getEdgeDriver();
+                case "Opera":
+                    return getOperaDriver();
+                default:
+                    return getChromeDriver();
+            }
+        }
+    }
 
     private static WebDriver getChromeDriver() {
         System.setProperty("webdriver.chrome.driver", pathToDriverDirectory + "chromedriver.exe");
@@ -42,28 +71,8 @@ public class Driver {
         return new EdgeDriver();
     }
 
-    private static WebDriver getWebGridDriver(String browserName) throws IOException {
+    private static WebDriver getGridDriver(String browserName) throws IOException {
         return new RemoteWebDriver(new URL(ReadProperties.getProperty("hub.url")), getCapabilites(browserName));
     }
 
-    public static WebDriver selectingRemoteDriver(Boolean remote, String browserName) throws IOException {
-        if (remote) {
-            return getWebGridDriver(browserName);
-        } else {
-            switch (browserName) {
-                case "Chrome":
-                    return getChromeDriver();
-                case "FireFox":
-                    return getFireFoxDriver();
-                case "IE":
-                    return getIEDriver();
-                case "Edge":
-                    return getEdgeDriver();
-                case "Opera":
-                    return getOperaDriver();
-                default:
-                    return getChromeDriver();
-            }
-        }
-    }
 }
