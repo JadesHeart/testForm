@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
-import scripts.StartFailedTests;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -28,8 +27,8 @@ import java.time.Duration;
  * Класс с
  */
 @Listeners(FailureListener.class)
-@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
-public class FormsTest {
+//@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
+public class FormsTest extends BaseTestClass {
     private static WebDriver driver;
     private static MainPage mainPage;
     private static JavaScriptMethods javaScripts;
@@ -42,8 +41,8 @@ public class FormsTest {
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser(){
-        driver = BaseTestClass.getDriver();
+    public void startBrowser() {
+        driver = getDriver();
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();

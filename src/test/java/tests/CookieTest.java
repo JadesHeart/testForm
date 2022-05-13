@@ -18,8 +18,8 @@ import properties.ReadProperties;
 import java.io.IOException;
 import java.time.Duration;
 
-public class CookieTest {
-    private WebDriver driver;
+public class CookieTest extends BaseTestClass {
+    private static WebDriver driver;
     private SQLExPage dummyRegistration;
     private ActionsWithCookies addCookies;
 
@@ -30,7 +30,7 @@ public class CookieTest {
      */
     @BeforeMethod
     public void startBrowser() {
-        driver = BaseTestClass.getDriver();
+        driver = getDriver();
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

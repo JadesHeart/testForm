@@ -1,9 +1,4 @@
 <suite name="Test suite" parallel="tests">
-    <test name="Integration tests1111">
-        <classes>
-            <class name="tests.BaseTestClass"></class>
-        </classes>
-    </test>
     <test name="Integration tests1">
         <classes>
             <class name="tests.CookieTest"></class>

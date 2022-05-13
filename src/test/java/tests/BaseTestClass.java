@@ -14,7 +14,7 @@ public class BaseTestClass {
     private static WebDriver driver;
 
     @BeforeSuite
-    public void startGrid() throws InvalidResponseFromServer, IOException {
+    public void startDriver() throws InvalidResponseFromServer, IOException {
         driver = selectingDriver(ReadProperties.getBoolProperty("remote"), ReadProperties.getProperty("browser"));
     }
 
