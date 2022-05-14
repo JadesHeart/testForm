@@ -10,8 +10,7 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.SQLExPage;
 import properties.ReadProperties;
@@ -29,9 +28,9 @@ public class CookieTest extends BaseTestClass {
      * Запускает браузер
      * Открывает сайт
      */
-    @BeforeMethod
+    @BeforeTest
     public void startBrowser() throws InvalidResponseFromServer, IOException {
-        driver = startDriver();
+        driver = getBaseDriver();
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();
@@ -62,11 +61,4 @@ public class CookieTest extends BaseTestClass {
         Assert.assertEquals(dummyRegistration.getProfileName(), ReadProperties.getProperty("profileName"));
     }
 
-    /**
-     * Закрывает драйвер
-     */
-    @AfterTest
-    public void browserClose() {
-        closeDriver(driver);
-    }
 }

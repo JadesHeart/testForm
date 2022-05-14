@@ -10,7 +10,6 @@ import io.qameta.allure.Story;
 import listener.FailureListener;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -19,6 +18,7 @@ import org.testng.annotations.Test;
 import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
+import scripts.StartFailedTests;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -29,7 +29,7 @@ import java.time.Duration;
  * Класс с
  */
 @Listeners(FailureListener.class)
-//@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
+@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
 public class FormsTest extends BaseTestClass {
     private static WebDriver driver;
     private static MainPage mainPage;
@@ -44,7 +44,7 @@ public class FormsTest extends BaseTestClass {
      */
     @BeforeTest
     public void startBrowser() throws InvalidResponseFromServer, IOException {
-        driver = startDriver();
+        driver = getBaseDriver();
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
@@ -63,7 +63,7 @@ public class FormsTest extends BaseTestClass {
         Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
 
-  /*  @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
+    @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
     @Story(value = "Попытка получить текст из несуществующего элемента")
@@ -81,7 +81,6 @@ public class FormsTest extends BaseTestClass {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
 
-*/
 
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
@@ -161,13 +160,5 @@ public class FormsTest extends BaseTestClass {
     @BeforeMethod
     public void beforeMethod() {
         driver.navigate().refresh();
-    }
-
-    /**
-     * Закрывает браузер
-     */
-    @AfterTest
-    public void browserClose() {
-        closeDriver(driver);
     }
 }
