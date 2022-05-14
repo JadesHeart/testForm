@@ -1,5 +1,6 @@
 package tests;
 
+import grid.InvalidResponseFromServer;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -19,6 +20,7 @@ import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
@@ -41,8 +43,8 @@ public class FormsTest extends BaseTestClass {
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() {
-        driver = getDriver();
+    public void startBrowser() throws InvalidResponseFromServer, IOException {
+        driver = startDriver();
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();
@@ -61,7 +63,7 @@ public class FormsTest extends BaseTestClass {
         Assert.assertFalse(javaScripts.checkScroll(mainPage.getBody()), "Высота скролла больше заданной высоты");
     }
 
-    @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
+  /*  @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
     @Story(value = "Попытка получить текст из несуществующего элемента")
@@ -79,6 +81,7 @@ public class FormsTest extends BaseTestClass {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
 
+*/
 
     /**
      * Ввожу верные параметры и получаю успешную авторизацию
@@ -165,6 +168,6 @@ public class FormsTest extends BaseTestClass {
      */
     @AfterTest
     public void browserClose() {
-        driver.quit();
+        closeDriver(driver);
     }
 }
