@@ -11,15 +11,11 @@ import java.io.IOException;
 import static driver.DriverFactory.selectingDriver;
 
 public class BaseTestClass {
-    private WebDriver driver;
+    protected WebDriver driver;
 
     @BeforeTest
     public void startDriver() throws InvalidResponseFromServer, IOException {
         driver = selectingDriver(ReadProperties.getBoolProperty("remote"), ReadProperties.getProperty("browser"));
-    }
-
-    public WebDriver getBaseDriver() {
-        return driver;
     }
 
     @AfterTest

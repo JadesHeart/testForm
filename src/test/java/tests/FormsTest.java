@@ -8,7 +8,6 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import listener.FailureListener;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -18,7 +17,6 @@ import org.testng.annotations.Test;
 import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
-import scripts.StartFailedTests;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -29,22 +27,16 @@ import java.time.Duration;
  * Класс с
  */
 @Listeners(FailureListener.class)
-@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
+//@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
 public class FormsTest extends BaseTestClass {
-    private static WebDriver driver;
     private static MainPage mainPage;
     private static JavaScriptMethods javaScripts;
-
-    public static WebDriver getDriver() {
-        return driver;
-    }
 
     /**
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
     public void startBrowser() throws InvalidResponseFromServer, IOException {
-        driver = getBaseDriver();
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();

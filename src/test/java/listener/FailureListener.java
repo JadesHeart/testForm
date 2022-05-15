@@ -4,14 +4,14 @@ import io.qameta.allure.Attachment;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import ru.yandex.qatools.ashot.AShot;
-import tests.FormsTest;
+import tests.BaseTestClass;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class FailureListener implements ITestListener {
+public class FailureListener extends BaseTestClass implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
@@ -29,7 +29,7 @@ public class FailureListener implements ITestListener {
     }
 
     private byte[] captureScreenShot() throws IOException {
-        BufferedImage image = new AShot().takeScreenshot(FormsTest.getDriver()).getImage();
+        BufferedImage image = new AShot().takeScreenshot(driver).getImage();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
         baos.flush();

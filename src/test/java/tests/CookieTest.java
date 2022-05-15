@@ -8,7 +8,6 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.time.Duration;
 
 public class CookieTest extends BaseTestClass {
-    private static WebDriver driver;
     private SQLExPage dummyRegistration;
     private ActionsWithCookies addCookies;
 
@@ -30,7 +28,6 @@ public class CookieTest extends BaseTestClass {
      */
     @BeforeTest
     public void startBrowser() throws InvalidResponseFromServer, IOException {
-        driver = getBaseDriver();
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();
