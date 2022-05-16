@@ -25,7 +25,7 @@ import java.time.Duration;
  * Класс с
  */
 @Listeners(FailureListener.class)
-//@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
+@Test(priority = 2, retryAnalyzer = StartFailedTests.class)
 public class FormsTest extends BaseTestClass {
     private static MainPage mainPage;
     private static JavaScriptMethods javaScripts;
