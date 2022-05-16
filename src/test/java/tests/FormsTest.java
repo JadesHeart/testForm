@@ -1,6 +1,5 @@
 package tests;
 
-import grid.InvalidResponseFromServer;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -18,7 +17,6 @@ import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.time.Duration;
 
@@ -36,7 +34,7 @@ public class FormsTest extends BaseTestClass {
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() throws InvalidResponseFromServer, IOException {
+    public void startBrowser() {
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
         driver.manage().window().maximize();

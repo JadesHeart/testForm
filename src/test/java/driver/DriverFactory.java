@@ -23,10 +23,15 @@ public class DriverFactory {
 
     public static WebDriver selectingDriver(Boolean remote, String browserName) throws IOException, InvalidResponseFromServer {
         if (remote) {
-            startHub();
-            waitPositiveResponse("http://localhost:4444/");
-            startNode();
-            waitPositiveResponse("http://localhost:5555/");
+            try {
+                waitPositiveResponse("http://localhost:4444/");
+                waitPositiveResponse("http://localhost:5555/");
+            } catch (Exception e) {
+                startHub();
+                waitPositiveResponse("http://localhost:4444/");
+                startNode();
+                waitPositiveResponse("http://localhost:5555/");
+            }
             return getGridDriver(browserName);
         } else {
             switch (browserName) {

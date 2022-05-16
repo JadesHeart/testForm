@@ -1,7 +1,6 @@
 package tests;
 
 import cookies.ActionsWithCookies;
-import grid.InvalidResponseFromServer;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -27,7 +26,7 @@ public class CookieTest extends BaseTestClass {
      * Открывает сайт
      */
     @BeforeTest
-    public void startBrowser() throws InvalidResponseFromServer, IOException {
+    public void startBrowser() {
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
         driver.manage().window().maximize();

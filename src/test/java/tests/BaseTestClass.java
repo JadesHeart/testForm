@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static driver.DriverFactory.selectingDriver;
 
-public class BaseTestClass {
+abstract public class BaseTestClass {
     protected WebDriver driver;
 
     @BeforeTest
@@ -18,8 +18,13 @@ public class BaseTestClass {
         driver = selectingDriver(ReadProperties.getBoolProperty("remote"), ReadProperties.getProperty("browser"));
     }
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     @AfterTest
     public void closeDriver() {
+        driver.manage().deleteAllCookies();
         driver.quit();
     }
 }

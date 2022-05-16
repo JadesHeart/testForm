@@ -1,6 +1,7 @@
 package listener;
 
 import io.qameta.allure.Attachment;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import ru.yandex.qatools.ashot.AShot;
@@ -11,25 +12,27 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class FailureListener extends BaseTestClass implements ITestListener {
-
+public class FailureListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
         try {
-            createAttachment();
+            createAttachment(result);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     @Attachment(value = "PNG Attachment {0}", type = "image/png")
-    public byte[] createAttachment() throws IOException {
-        return captureScreenShot();
+    public byte[] createAttachment(ITestResult result) throws IOException {
+        return captureScreenShot(result);
     }
 
-    private byte[] captureScreenShot() throws IOException {
-        BufferedImage image = new AShot().takeScreenshot(driver).getImage();
+    private byte[] captureScreenShot(ITestResult result) throws IOException {
+
+        Object currentClass = result.getInstance();
+        WebDriver webDriver = ((BaseTestClass) currentClass).getDriver();
+
+        BufferedImage image = new AShot().takeScreenshot(webDriver).getImage();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
         baos.flush();
