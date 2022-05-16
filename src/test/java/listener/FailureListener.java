@@ -16,17 +16,13 @@ public class FailureListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
         try {
-            createAttachment(result);
+            captureScreenShot(result);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Attachment(value = "PNG Attachment {0}", type = "image/png")
-    public byte[] createAttachment(ITestResult result) throws IOException {
-        return captureScreenShot(result);
-    }
-
     private byte[] captureScreenShot(ITestResult result) throws IOException {
 
         Object currentClass = result.getInstance();

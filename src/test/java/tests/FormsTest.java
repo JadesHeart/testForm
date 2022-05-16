@@ -8,6 +8,7 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import listener.FailureListener;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -16,6 +17,7 @@ import org.testng.annotations.Test;
 import pages.MainPage;
 import properties.ReadProperties;
 import scripts.JavaScriptMethods;
+import scripts.StartFailedTests;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -150,5 +152,10 @@ public class FormsTest extends BaseTestClass {
     @BeforeMethod
     public void beforeMethod() {
         driver.navigate().refresh();
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        driver.manage().deleteAllCookies();
     }
 }

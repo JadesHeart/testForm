@@ -24,7 +24,6 @@ abstract public class BaseTestClass {
 
     @AfterTest
     public void closeDriver() {
-        driver.manage().deleteAllCookies();
         driver.quit();
     }
 }

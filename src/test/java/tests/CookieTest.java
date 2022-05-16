@@ -8,6 +8,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.SQLExPage;
@@ -57,4 +58,8 @@ public class CookieTest extends BaseTestClass {
         Assert.assertEquals(dummyRegistration.getProfileName(), ReadProperties.getProperty("profileName"));
     }
 
+    @AfterMethod
+    public void afterMethod() {
+        driver.manage().deleteAllCookies();
+    }
 }
