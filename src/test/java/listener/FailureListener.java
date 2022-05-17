@@ -13,14 +13,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class FailureListener implements ITestListener {
-    @Override
-    public void onTestFailure(ITestResult result) {
-        try {
-            captureScreenShot(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Attachment(value = "PNG Attachment {0}", type = "image/png")
     private byte[] captureScreenShot(ITestResult result) throws IOException {
@@ -35,5 +27,14 @@ public class FailureListener implements ITestListener {
         byte[] imageInByte = baos.toByteArray();
         baos.close();
         return imageInByte;
+    }
+
+    @Override
+    public void onTestFailure(ITestResult result) {
+        try {
+            captureScreenShot(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
