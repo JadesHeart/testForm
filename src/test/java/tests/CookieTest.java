@@ -7,21 +7,15 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.SQLExPage;
 import properties.ReadProperties;
 
 import java.io.IOException;
-import java.time.Duration;
 
-import static driver.Driver.selectingRemoteDriver;
-
-public class CookieTest {
-    private WebDriver driver;
+public class CookieTest extends BaseTestClass {
     private SQLExPage dummyRegistration;
     private ActionsWithCookies addCookies;
 
@@ -30,13 +24,10 @@ public class CookieTest {
      * Запускает браузер
      * Открывает сайт
      */
-    @BeforeMethod
-    public void startBrowser() throws IOException{
-        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"));
+    @BeforeTest
+    public void startBrowser() {
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("DummyFormLink"));
     }
 
@@ -61,13 +52,5 @@ public class CookieTest {
             addCookies.saveCookies();
         }
         Assert.assertEquals(dummyRegistration.getProfileName(), ReadProperties.getProperty("profileName"));
-    }
-
-    /**
-     * Закрывает драйвер
-     */
-    @AfterTest
-    public void browserClose() {
-        driver.quit();
     }
 }

@@ -5,9 +5,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class Capabilites {
 
-    public static DesiredCapabilities getCapabilites() {
+    public static DesiredCapabilities getCapabilites(String browserName) {
         DesiredCapabilities capability = new DesiredCapabilities();
-        capability.setBrowserName("chrome");
+        capability.setBrowserName(browserName);
         capability.setPlatform(Platform.WINDOWS);
         return capability;
     }

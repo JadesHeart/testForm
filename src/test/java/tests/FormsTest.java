@@ -7,9 +7,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import listener.FailureListener;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -20,11 +18,7 @@ import properties.ReadProperties;
 import scripts.JavaScriptMethods;
 import scripts.StartFailedTests;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.time.Duration;
-
-import static driver.Driver.selectingRemoteDriver;
 
 
 /**
@@ -32,27 +26,18 @@ import static driver.Driver.selectingRemoteDriver;
  */
 @Listeners(FailureListener.class)
 @Test(priority = 2, retryAnalyzer = StartFailedTests.class)
-public class FormsTest {
-    private static WebDriver driver;
+public class FormsTest extends BaseTestClass {
     private static MainPage mainPage;
     private static JavaScriptMethods javaScripts;
-
-    public static WebDriver getDriver() {
-        return driver;
-    }
 
     /**
      * Запуск браузера и открытие сайта
      */
     @BeforeTest
-    public void startBrowser() throws IOException {
-        driver = selectingRemoteDriver(ReadProperties.getBoolProperty("remote"));
+    public void startBrowser() {
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("baseURL"));
-
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
@@ -79,7 +64,7 @@ public class FormsTest {
     @Epic(value = "Тестирования пользовательского интерфейса")
     @Feature(value = "Падающие тесты")
     @Story(value = "Текст из элемента сравнивается с другим текстом")
-    @Test(priority = 2, retryAnalyzer = StartFailedTests.class,enabled = false)
+    @Test(priority = 2, enabled = false)
     public void testHeadlineUserNameText() {
         Assert.assertEquals(mainPage.getTextFromHeadlineUserName(), ReadProperties.getProperty("EmptyText"));
     }
@@ -163,13 +148,5 @@ public class FormsTest {
     @BeforeMethod
     public void beforeMethod() {
         driver.navigate().refresh();
-    }
-
-    /**
-     * Закрывает браузер
-     */
-    @AfterTest
-    public void browserClose() {
-        driver.quit();
     }
 }

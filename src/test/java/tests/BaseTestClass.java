@@ -1,26 +1,38 @@
 package tests;
 
 import grid.InvalidResponseFromServer;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Parameters;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import properties.ReadProperties;
 
 import java.io.IOException;
+import java.time.Duration;
 
-import static grid.StartBatScripts.startHub;
-import static grid.StartBatScripts.startNode;
-import static waits.Waiting.waitPositiveResponse;
+import static driver.DriverFactory.selectingDriver;
 
-public class BaseTestClass {
-    @BeforeSuite
-    @Parameters("name")
-    public void startGrid(String name) throws InvalidResponseFromServer, IOException {
-        if (name == "Grid") {
-            startHub();
-            waitPositiveResponse("http://localhost:4444/");
-            startNode();
-            waitPositiveResponse("http://localhost:5555/");
-        } else {
-            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\webDriver\\chromedriver\\chromedriver.exe");
-        }
+abstract public class BaseTestClass {
+    protected WebDriver driver;
+
+    @BeforeTest
+    public void startDriver() throws InvalidResponseFromServer, IOException {
+        driver = selectingDriver(ReadProperties.getBoolProperty("remote"), ReadProperties.getProperty("browser"));
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        driver.manage().deleteAllCookies();
+    }
+
+    @AfterTest
+    public void closeDriver() {
+        driver.quit();
     }
 }
