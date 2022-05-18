@@ -8,7 +8,6 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import listener.FailureListener;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -20,7 +19,6 @@ import scripts.JavaScriptMethods;
 import scripts.StartFailedTests;
 
 import java.lang.reflect.Method;
-import java.time.Duration;
 
 
 /**
@@ -39,8 +37,6 @@ public class FormsTest extends BaseTestClass {
     public void startBrowser() {
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("baseURL"));
     }
 
@@ -152,10 +148,5 @@ public class FormsTest extends BaseTestClass {
     @BeforeMethod
     public void beforeMethod() {
         driver.navigate().refresh();
-    }
-
-    @AfterMethod
-    public void afterMethod() {
-        driver.manage().deleteAllCookies();
     }
 }

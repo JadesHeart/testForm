@@ -8,14 +8,12 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.SQLExPage;
 import properties.ReadProperties;
 
 import java.io.IOException;
-import java.time.Duration;
 
 public class CookieTest extends BaseTestClass {
     private SQLExPage dummyRegistration;
@@ -30,8 +28,6 @@ public class CookieTest extends BaseTestClass {
     public void startBrowser() {
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(ReadProperties.getProperty("DummyFormLink"));
     }
 
@@ -56,10 +52,5 @@ public class CookieTest extends BaseTestClass {
             addCookies.saveCookies();
         }
         Assert.assertEquals(dummyRegistration.getProfileName(), ReadProperties.getProperty("profileName"));
-    }
-
-    @AfterMethod
-    public void afterMethod() {
-        driver.manage().deleteAllCookies();
     }
 }
