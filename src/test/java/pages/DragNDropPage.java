@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,7 +17,7 @@ public class DragNDropPage {
     private WebElement draggableElement;
     @FindBy(id = "droppable")
     private WebElement draggedElement;
-    @FindBy(css = "#example-1-tab-1 > div > iframe")
+    @FindBy(css = "#example-1-tab-1  iframe")
     private WebElement transferWindow;
 
     public DragNDropPage(WebDriver driver) {
@@ -24,16 +25,19 @@ public class DragNDropPage {
         PageFactory.initElements(driver, this);
     }
 
+    @Step("Указывает на работу с окном DragNDrop'a")
     public void windowEntry() {
         waitElementDisplays(transferWindow, driver);
         driver.switchTo().frame(transferWindow);
-        waitElementDisplays(draggableElement, driver);
     }
 
+    @Step("Совершает DragNDrop")
     public void dragNDrop(Actions actions) {
+        waitElementDisplays(draggableElement, driver);
         actions.dragAndDrop(draggableElement, draggedElement).build().perform();
     }
 
+    @Step("Возвращает текст с элемента, после переноса")
     public String getDraggedElementText() {
         return draggedElement.getText();
     }

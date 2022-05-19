@@ -1,5 +1,11 @@
 package tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -17,6 +23,11 @@ public class DragNDropTest extends BaseTestClass {
         driver.get(ReadProperties.getProperty("dragNDropURL"));
     }
 
+    @Description(value = "Тест проверяет dragNDrop элемента")
+    @Severity(SeverityLevel.CRITICAL)
+    @Epic(value = "Тестирования пользовательского интерфейса")
+    @Feature(value = "Тестирование формы DragNDropa")
+    @Story(value = "DragNDrop элементов")
     @Test
     public void testDragNDrop() {
         actions = new Actions(driver);
