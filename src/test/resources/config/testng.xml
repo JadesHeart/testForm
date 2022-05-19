@@ -9,4 +9,9 @@
             <class name="tests.FormsTest"></class>
         </classes>
     </test>
+    <test name="Integration tests222">
+        <classes>
+            <class name="tests.DragNDropTest"></class>
+        </classes>
+    </test>
 </suite>

@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import static waits.Waiting.waitElementDisplays;
 
-public class MainPage {
+public class MainPage{
     private WebDriver driver;
     @FindBy(css = "body")
     private WebElement body;
