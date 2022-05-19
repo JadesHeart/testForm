@@ -13,7 +13,7 @@ public class TabsPage {
 
     @FindBy(linkText = "New Browser Tab")
     private WebElement newBrowserTabButton;
-    @FindBy(css = "#example-1-tab-1 > div > iframe")
+    @FindBy(css = "#example-1-tab-1  iframe")
     private WebElement frameWindow;
 
     public TabsPage(WebDriver driver) {
