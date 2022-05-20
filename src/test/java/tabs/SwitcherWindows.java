@@ -5,18 +5,8 @@ import org.openqa.selenium.WebDriver;
 import java.util.ArrayList;
 
 public class SwitcherWindows {
-    private WebDriver driver;
-
-    public SwitcherWindows(WebDriver driver) {
-        this.driver = driver;
-    }
-
-    public int getQuantityTabs() {
+    public static int getQuantityTabs(WebDriver driver) {
         ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
         return tabs.size();
-    }
-
-    public int increaseTabCounter(int number) {
-        return ++number;
     }
 }

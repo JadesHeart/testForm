@@ -11,17 +11,16 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.TabsPage;
 import properties.ReadProperties;
-import tabs.SwitcherWindows;
+
+import static tabs.SwitcherWindows.getQuantityTabs;
 
 public class TabsTest extends BaseTestClass {
     private static TabsPage tabsPage;
-    private static SwitcherWindows switcherWindows;
     private static int quantityTabs = 1;
 
     @BeforeTest
     public void startBrowser() {
         tabsPage = new TabsPage(driver);
-        switcherWindows = new SwitcherWindows(driver);
         driver.get(ReadProperties.getProperty("browserTabURL"));
     }
 
@@ -31,21 +30,12 @@ public class TabsTest extends BaseTestClass {
     @Feature(value = "Тестирование формы для открытия новой вкладки")
     @Story(value = "Открытие новой вкладки")
     @Test
-    public void testOpeningSecondTab() {
+    public void testOpeningTabs() {
         tabsPage.windowEntry();
         tabsPage.clickOnNewBrowserTabButton();
-        Assert.assertEquals(switcherWindows.getQuantityTabs(), quantityTabs + 1, "Вторая вкладка не открылась");
-        quantityTabs = switcherWindows.increaseTabCounter(quantityTabs);
-    }
-
-    @Description(value = "Тест проверяет что новая вкладка открылась")
-    @Severity(SeverityLevel.CRITICAL)
-    @Epic(value = "Тестирования пользовательского интерфейса")
-    @Feature(value = "Тестирование формы для открытия новой вкладки")
-    @Story(value = "Открытие новой вкладки")
-    @Test
-    public void testOpeningThirdTab() {
+        Assert.assertEquals(getQuantityTabs(driver), quantityTabs + 1, "Вторая вкладка не открылась");
+        ++quantityTabs;
         tabsPage.clickOnNewBrowserTabButton();
-        Assert.assertEquals(switcherWindows.getQuantityTabs(), quantityTabs + 1, "Третья вкладка не открылась");
+        Assert.assertEquals(getQuantityTabs(driver), quantityTabs + 1, "Третья вкладка не открылась");
     }
 }
