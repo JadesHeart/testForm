@@ -19,4 +19,9 @@
             <class name="tests.TabsTest"></class>
         </classes>
     </test>
+    <test name="Integration tests2211211">
+        <classes>
+            <class name="tests.AlertTest"></class>
+        </classes>
+    </test>
 </suite>
