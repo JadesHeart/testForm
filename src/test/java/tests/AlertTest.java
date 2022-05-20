@@ -29,12 +29,11 @@ public class AlertTest extends BaseTestClass {
     @Feature(value = "Тестирование алерта")
     @Story(value = "Ввод сообщения в алерт и нажатия кнопки ввода")
     @Test
-    public void testInputTextInAlert() throws InterruptedException {
+    public void testInputTextInAlert() {
         alertPage.clickInputAlertButtonButton();
         alertPage.windowEntry();
         alertPage.clickDisplayedAlertButton();
-        writeMessageAlert(driver);
-        Assert.assertEquals(alertPage.getAlertsMessage(), ReadProperties.getProperty("reternedAlertMessage"), ReadProperties.getProperty("alertFailedMessage"));
-        Thread.sleep(3000);
+        writeMessageAlert(driver, ReadProperties.getProperty("alertMessage"));
+        Assert.assertEquals(alertPage.getAlertsMessage(), ReadProperties.getProperty("returnedAlertMessage"), ReadProperties.getProperty("alertFailedMessage"));
     }
 }

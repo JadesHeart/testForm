@@ -2,12 +2,11 @@ package alert;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
-import properties.ReadProperties;
 
 public class WriterAlert {
-    public static void writeMessageAlert(WebDriver driver) {
+    public static void writeMessageAlert(WebDriver driver,String message) {
         Alert alert = driver.switchTo().alert();
-        alert.sendKeys(ReadProperties.getProperty("alertMessage"));
+        alert.sendKeys(message);
         driver.switchTo().alert().accept();
     }
 }

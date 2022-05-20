@@ -15,7 +15,7 @@ public class AlertPage {
     private WebElement inputAlertButton;
     @FindBy(css = "body > button")
     private WebElement buttonDisplayedAlert;
-    @FindBy(css = "#example-1-tab-2 > div > iframe")
+    @FindBy(css = "#example-1-tab-2 iframe")
     private WebElement frameWindow;
     @FindBy(id = "demo")
     private WebElement alertMessage;
