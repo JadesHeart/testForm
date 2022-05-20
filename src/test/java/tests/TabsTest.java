@@ -12,11 +12,10 @@ import org.testng.annotations.Test;
 import pages.TabsPage;
 import properties.ReadProperties;
 
-import static tabs.SwitcherWindows.getQuantityTabs;
+import static tabs.SwitcherWindows.numbersTabs;
 
 public class TabsTest extends BaseTestClass {
     private static TabsPage tabsPage;
-    private static int quantityTabs = 1;
 
     @BeforeTest
     public void startBrowser() {
@@ -33,9 +32,8 @@ public class TabsTest extends BaseTestClass {
     public void testOpeningTabs() {
         tabsPage.windowEntry();
         tabsPage.clickOnNewBrowserTabButton();
-        Assert.assertEquals(getQuantityTabs(driver), quantityTabs + 1, "Вторая вкладка не открылась");
-        ++quantityTabs;
+        Assert.assertEquals(numbersTabs(driver), 2, "Вторая вкладка не открылась");
         tabsPage.clickOnNewBrowserTabButton();
-        Assert.assertEquals(getQuantityTabs(driver), quantityTabs + 1, "Третья вкладка не открылась");
+        Assert.assertEquals(numbersTabs(driver), 3, "Третья вкладка не открылась");
     }
 }
