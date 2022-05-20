@@ -14,4 +14,9 @@
             <class name="tests.DragNDropTest"></class>
         </classes>
     </test>
+    <test name="Integration tests22112">
+        <classes>
+            <class name="tests.TabsTest"></class>
+        </classes>
+    </test>
 </suite>
