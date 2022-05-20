@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import pages.TabsPage;
 import properties.ReadProperties;
 
-import static tabs.SwitcherWindows.numbersTabs;
+import static helpers.SwitcherWindows.numbersTabs;
 
 public class TabsTest extends BaseTestClass {
     private static TabsPage tabsPage;
