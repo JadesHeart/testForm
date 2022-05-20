@@ -1,4 +1,4 @@
-package cookies;
+package helpers;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;

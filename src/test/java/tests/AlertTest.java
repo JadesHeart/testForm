@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import pages.AlertPage;
 import properties.ReadProperties;
 
-import static alert.WriterAlert.writeMessageAlert;
+import static helpers.AlertHelper.writeMessageAlert;
 
 public class AlertTest extends BaseTestClass {
     private AlertPage alertPage;
