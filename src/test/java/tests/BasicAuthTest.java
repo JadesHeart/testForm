@@ -18,7 +18,8 @@ public class BasicAuthTest extends BaseTestClass {
     @BeforeTest
     public void startBrowser() {
         basicAuthPage = new BasicAuthPage(driver);
-        driver.get(ReadProperties.getProperty("browserBasicAuthURL"));
+        String link = "https://" + ReadProperties.getProperty("basicauth.login") + ":" + ReadProperties.getProperty("basicauth.password") + "@" + ReadProperties.getProperty("basicAuthURL");
+        driver.get(link);
     }
 
     @Description(value = "Тест проверяет на успешную базовую  аутентификация")
