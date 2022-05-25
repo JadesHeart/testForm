@@ -37,7 +37,7 @@ public class FormsTest extends BaseTestClass {
     public void startBrowser() {
         mainPage = new MainPage(driver);
         javaScripts = new JavaScriptMethods(driver);
-        driver.get(ReadProperties.getProperty("baseURL"));
+        driver.get(ReadProperties.getProperty("url.base"));
     }
 
     @Description(value = "Тест ищит элемент с неверным css-селектором и не найдя падает")
@@ -83,7 +83,7 @@ public class FormsTest extends BaseTestClass {
         mainPage.enteringParameters(ReadProperties.getProperty("profile.login"), ReadProperties.getProperty("profile.password"), ReadProperties.getProperty("profile.description"));
         mainPage.clickLoginButton();
         Assert.assertEquals(mainPage.getPositiveResponseText(), ReadProperties.getProperty("home"));
-        driver.get(ReadProperties.getProperty("baseURL"));
+        driver.get(ReadProperties.getProperty("url.base"));
     }
 
     /**

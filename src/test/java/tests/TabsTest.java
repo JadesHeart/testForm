@@ -20,7 +20,7 @@ public class TabsTest extends BaseTestClass {
     @BeforeTest
     public void startBrowser() {
         tabsPage = new TabsPage(driver);
-        driver.get(ReadProperties.getProperty("browserTabURL"));
+        driver.get(ReadProperties.getProperty("url.browsertab"));
     }
 
     @Description(value = "Тест проверяет что новая вкладка открылась")

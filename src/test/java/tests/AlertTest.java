@@ -20,7 +20,7 @@ public class AlertTest extends BaseTestClass {
     @BeforeTest
     public void startBrowser() {
         alertPage = new AlertPage(driver);
-        driver.get(ReadProperties.getProperty("browserAlertURL"));
+        driver.get(ReadProperties.getProperty("url.browseralert"));
     }
 
     @Description(value = "Тест проверяет что кастомный текст применился в алерт")

@@ -20,7 +20,7 @@ public class DragNDropTest extends BaseTestClass {
     @BeforeTest
     public void startBrowser() {
         dragNDropPage = new DragNDropPage(driver);
-        driver.get(ReadProperties.getProperty("dragNDropURL"));
+        driver.get(ReadProperties.getProperty("url.dragndrop"));
     }
 
     @Description(value = "Тест проверяет dragNDrop элемента")

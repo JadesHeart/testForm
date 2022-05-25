@@ -13,12 +13,12 @@ import pages.BasicAuthPage;
 import properties.ReadProperties;
 
 public class BasicAuthTest extends BaseTestClass {
-    private static BasicAuthPage basicAuthPage;
+    private BasicAuthPage basicAuthPage;
 
     @BeforeTest
     public void startBrowser() {
         basicAuthPage = new BasicAuthPage(driver);
-        String link = "https://" + ReadProperties.getProperty("basicauth.login") + ":" + ReadProperties.getProperty("basicauth.password") + "@" + ReadProperties.getProperty("basicAuthURL");
+        String link = "https://" + ReadProperties.getProperty("basicauth.login") + ":" + ReadProperties.getProperty("basicauth.password") + "@" + ReadProperties.getProperty("url.basicauth");
         driver.get(link);
     }
 

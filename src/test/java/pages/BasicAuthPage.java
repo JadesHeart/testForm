@@ -16,7 +16,6 @@ public class BasicAuthPage {
     @FindBy(id = "downloadImg")
     private WebElement authenticatedImage;
 
-
     public BasicAuthPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);

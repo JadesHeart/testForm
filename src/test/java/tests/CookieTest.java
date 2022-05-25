@@ -28,7 +28,7 @@ public class CookieTest extends BaseTestClass {
     public void startBrowser() {
         dummyRegistration = new SQLExPage(driver);
         addCookies = new ActionsWithCookies(driver);
-        driver.get(ReadProperties.getProperty("DummyFormLink"));
+        driver.get(ReadProperties.getProperty("url.dummyform"));
     }
 
     /**
