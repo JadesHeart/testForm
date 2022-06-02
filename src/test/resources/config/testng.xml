@@ -24,4 +24,9 @@
             <class name="tests.AlertTest"></class>
         </classes>
     </test>
+    <test name="Integration tests1">
+        <classes>
+            <class name="tests.BasicAuthTest"></class>
+        </classes>
+    </test>
 </suite>

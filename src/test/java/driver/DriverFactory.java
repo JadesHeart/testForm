@@ -76,7 +76,7 @@ public class DriverFactory {
     }
 
     private static WebDriver getGridDriver(String browserName) throws IOException {
-        return new RemoteWebDriver(new URL(ReadProperties.getProperty("hub.url")), getCapabilites(browserName));
+        return new RemoteWebDriver(new URL(ReadProperties.getProperty("url.hub")), getCapabilites(browserName));
     }
 
 }
